@@ -1,14 +1,14 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Bangumi {
+public class BangumiBrief {
     @SerializedName("title")
     @Expose
     private String title;
 
-    @SerializedName("message")
+    @SerializedName("image_url")
     @Expose
     private String imageUrl;
 

@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,9 +10,9 @@ public class BangumiResponse {
 
     @SerializedName("data")
     @Expose
-    private Data data;
+    private BangumiData data;
 
-    public Data getData() {
+    public BangumiData getData() {
         return this.data;
     }
 }

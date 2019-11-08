@@ -1,10 +1,11 @@
 package com.example.aniscoreandroid;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,20 +21,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class Home extends Fragment {
+    private RecyclerView rankView;
     Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
-    private RecyclerView recyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.rank_list);
-        Fragment fragment = new Home();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.container, fragment);
-        ft.commit();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
+        View view = inflater.inflate(R.layout.home_view, container, false);
+        rankView = view.findViewById(R.id.rank_list);
+        getRank();
+        return view;
     }
 
     private void getRank() {
@@ -45,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     BangumiListData data = response.body().getData();
                     List<BangumiBrief> bangumiList = data.getBangumiList();
-                    recyclerView.setAdapter(new BangumiBriefAdapter(bangumiList));
-                    recyclerView.setLayoutManager(new GridLayoutManager(getBaseContext(), 3));
+                    rankView.setAdapter(new BangumiBriefAdapter(bangumiList));
+                    rankView.setLayoutManager(new GridLayoutManager(getContext(), 3));
                 }
             }
 
@@ -55,6 +53,5 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("fail");
             }
         });
-
     }
 }
