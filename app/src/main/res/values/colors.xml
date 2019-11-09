@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="titleColor">#000000</color>
+    <color name="divider">#dfdfdf</color>
+    <color name="app_background">#ffffff</color>
 </resources>

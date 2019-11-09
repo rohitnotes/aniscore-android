@@ -14,5 +14,7 @@ public interface ServerCall {
     @GET("/api/bangumiList/rank/{bangumiNumber}")
     Call<BangumiListResponse> getBangumiRank(@Path("bangumiNumber") int bangumiNumber);
 
-
+    // get all bangumis of given year and season
+    @GET("/api/bangumi/{year}/{season}/limit")
+    Call<BangumiListResponse> getBangumiOfYearSeason(@Path("year") String year, @Path("season") String season);
 }

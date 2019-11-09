@@ -1,20 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rank_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_background">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:src="@drawable/background"
+            app:layout_constraintBottom_toTopOf="@id/rank_title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/rank_title"
+            android:text="@string/home_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="8pt"
+            android:textStyle="bold"
+            android:width="20dp"
+            android:textColor="@color/titleColor"
+            app:layout_constraintTop_toBottomOf="@id/background_image"
+            app:layout_constraintBottom_toTopOf="@id/rank_list"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rank_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/rank_title" />
+
+        <View
+            android:id="@+id/divider_1"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dfdfdf"
+            app:layout_constraintBottom_toTopOf="@id/current_season_title"
+            app:layout_constraintTop_toBottomOf="@id/rank_list"/>
+
+        <TextView
+            android:id="@+id/current_season_title"
+            android:text="@string/home_rank"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin = "7dp"
+            android:textSize="8pt"
+            android:textColor="@color/titleColor"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/current_bangumi_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/current_season_title" />
+
+        <View
+            android:id="@+id/divider_2"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dfdfdf"
+            app:layout_constraintTop_toBottomOf="@id/current_bangumi_list"/>
+
+        <TextView
+            android:id="@+id/previous_season_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="8pt"
+            android:layout_margin="7dp"
+            android:textColor="@color/titleColor"
+            app:layout_constraintTop_toBottomOf="@id/divider_2"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/previous_bangumi_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/previous_season_title" />
+
+        <View
+            android:id="@+id/divider_3"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dfdfdf"
+            app:layout_constraintTop_toBottomOf="@id/previous_bangumi_list"/>
+
+        <TextView
+            android:id="@+id/before_previous_season_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="8pt"
+            android:layout_margin = "7dp"
+            android:textColor="@color/titleColor"
+            app:layout_constraintTop_toBottomOf="@id/divider_3"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/before_previous_bangumi_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/before_previous_season_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Aniscore</string>
+    <string name="home_rank">热门番剧</string>
+    <string name="home">Home</string>
+    <string name="season">Season</string>
+    <string name="rank">Rank</string>
 </resources>

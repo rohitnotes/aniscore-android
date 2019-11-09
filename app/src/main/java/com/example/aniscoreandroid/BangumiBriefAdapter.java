@@ -45,8 +45,8 @@ public class BangumiBriefAdapter extends RecyclerView.Adapter<BangumiBriefAdapte
         BangumiBrief currentBangumi = bangumiList.get(position);
         new DownloadImageTask(holder.image).execute(currentBangumi.getImageUrl());
         String title = currentBangumi.getTitle();
-        if(title.length() > 30) {
-            holder.title.setText((title.substring(0, 30) + "..."));
+        if(title.length() > 25) {
+            holder.title.setText((title.substring(0, 25) + "..."));
         } else {
             holder.title.setText(title);
         }
