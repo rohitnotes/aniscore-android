@@ -13,6 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private int selectId = 0;
+    final static String SELECTED_YEAR = "BANGUMI_YEAR";
+    final static String SELECTED_SEASON = "BANGUMI_SEASON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

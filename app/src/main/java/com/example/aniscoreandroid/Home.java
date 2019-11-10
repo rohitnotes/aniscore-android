@@ -139,7 +139,7 @@ public class Home extends Fragment {
      */
     private void getBangumiOfYearSeason(String year, String season, final RecyclerView recyclerView) {
         ServerCall service = retrofit.create(ServerCall.class);
-        Call<BangumiListResponse> getBangumiCall = service.getBangumiOfYearSeason(year, season);
+        Call<BangumiListResponse> getBangumiCall = service.getBangumiOfYearSeasonLimit(year, season);
         getBangumiCall.enqueue(new Callback<BangumiListResponse>() {
             @Override
             public void onResponse(Call<BangumiListResponse> call, Response<BangumiListResponse> response) {
@@ -178,10 +178,10 @@ public class Home extends Fragment {
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
         time[0] = year + "";
-        if (month >= 1 && month <= 4) {
+        if (month >= 1 && month < 4) {
             time[1] = "winter";
             time[2] = "1";
-        } else if (month >= 4 && month <= 7) {
+        } else if (month >= 4 && month < 7) {
             time[1] = "spring";
             time[2] = "4";
         } else if (month >= 7 && month <= 10) {

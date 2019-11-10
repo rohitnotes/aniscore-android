@@ -101,7 +101,7 @@ public class Season extends Fragment {
      */
     private void getBangumiOfYearSeason(final String year, String season, final int month) {
         ServerCall service = retrofit.create(ServerCall.class);
-        Call<BangumiListResponse> getBangumiCall = service.getBangumiOfYearSeason(year, season);
+        Call<BangumiListResponse> getBangumiCall = service.getBangumiOfYearSeasonLimit(year, season);
         BangumiListData data = null;
         try {
             data = getBangumiCall.execute().body().getData();

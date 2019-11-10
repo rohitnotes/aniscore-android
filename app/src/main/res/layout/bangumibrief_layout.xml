@@ -9,8 +9,8 @@
     android:layout_marginBottom="2dp"
     android:layout_marginLeft="3dp"
     android:layout_marginStart="3dp"
-    android:layout_marginRight="7dp"
-    android:layout_marginEnd="7dp">
+    android:layout_marginRight="4dp"
+    android:layout_marginEnd="4dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
@@ -34,7 +34,7 @@
         android:id="@+id/bangumi_title"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_margin="4dp"
         android:layout_below="@id/card"
         android:fontFamily="PT Sans Caption"
         android:textColor="@color/titleColor"
