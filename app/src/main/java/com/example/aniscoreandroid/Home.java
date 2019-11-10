@@ -124,7 +124,7 @@ public class Home extends Fragment {
     }
 
     /*
-     *
+     * get bangumi of season before previous season
      */
     private void getBeforePreviousBangumiView() {
         String[] time = getCurrentSeason();
@@ -178,15 +178,18 @@ public class Home extends Fragment {
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
         time[0] = year + "";
-        time[2] = month + "";
         if (month >= 1 && month <= 4) {
             time[1] = "winter";
+            time[2] = "1";
         } else if (month >= 4 && month <= 7) {
             time[1] = "spring";
+            time[2] = "4";
         } else if (month >= 7 && month <= 10) {
             time[1] = "summer";
+            time[2] = "7";
         } else {
             time[1] = "fall";
+            time[2] = "10";
         }
         return time;
     }
@@ -196,19 +199,20 @@ public class Home extends Fragment {
      */
     private String[] getPreviousSeason(String[] time) {
         if (time[2].equals("1")) {         // current month is 1
-            time[2] = "12";
             time[0] = Integer.parseInt(time[0]) - 1 + "";
-        } else {                           // get previous month
-            time[2] = Integer.parseInt(time[2]) - 1 + "";
         }
         if (time[1].equals("winter")) {
             time[1] = "fall";
+            time[2] = "10";
         } else if (time[1].equals("spring")) {
             time[1] = "winter";
+            time[2] = "1";
         } else if (time[1].equals("summer")) {
             time[1] = "spring";
+            time[2] = "4";
         } else {
             time[1] = "summer";
+            time[2] = "7";
         }
         return time;
     }

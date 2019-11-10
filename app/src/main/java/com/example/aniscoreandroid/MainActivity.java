@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new Home();
                 break;
             case R.id.season:
+                fragment = new Season();
                 break;
             case R.id.rank:
                 break;
