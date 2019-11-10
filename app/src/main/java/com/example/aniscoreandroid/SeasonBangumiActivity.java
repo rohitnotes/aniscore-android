@@ -2,7 +2,6 @@ package com.example.aniscoreandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -34,7 +33,6 @@ public class SeasonBangumiActivity extends AppCompatActivity {
         String year = intent.getStringExtra(MainActivity.SELECTED_YEAR);
         String season = intent.getStringExtra(MainActivity.SELECTED_SEASON);
         getBangumiOfGivenSeason(year, season);
-        ((TextView)findViewById(R.id.test)).setText(year + season);
     }
 
     private void getBangumiOfGivenSeason(String year, String season) {
