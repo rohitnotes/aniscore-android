@@ -7,12 +7,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.model.BangumiBrief;
+import com.example.aniscoreandroid.model.BangumiBriefScore;
 import com.example.aniscoreandroid.model.BangumiListData;
 import com.example.aniscoreandroid.model.BangumiListResponse;
+import com.example.aniscoreandroid.model.BangumiListScoreData;
+import com.example.aniscoreandroid.model.BangumiListScoreResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +38,7 @@ public class Home extends Fragment {
     private RecyclerView previousBangumiView;
     private RecyclerView beforePreviousBangumiView;
     private View view;
+    private BottomNavigationView navigationView;
     private final int numThread = 4;
     Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
@@ -44,7 +50,10 @@ public class Home extends Fragment {
         currentBangumiView = view.findViewById(R.id.current_bangumi_list);
         previousBangumiView = view.findViewById(R.id.previous_bangumi_list);
         beforePreviousBangumiView = view.findViewById(R.id.before_previous_bangumi_list);
+        navigationView = getActivity().findViewById(R.id.navigation);
         loadBangumi();
+        setRankListener();
+        setSeasonListener();
         return view;
     }
 
@@ -85,23 +94,62 @@ public class Home extends Fragment {
      */
     private void getRank() {
         ServerCall service = retrofit.create(ServerCall.class);
-        Call<BangumiListResponse> rankCall = service.getBangumiRank(3);
-        rankCall.enqueue(new Callback<BangumiListResponse>() {
+        Call<BangumiListScoreResponse> rankCall = service.getBangumiRank(3);
+        rankCall.enqueue(new Callback<BangumiListScoreResponse>() {
             @Override
-            public void onResponse(Call<BangumiListResponse> call, Response<BangumiListResponse> response) {
+            public void onResponse(Call<BangumiListScoreResponse> call, Response<BangumiListScoreResponse> response) {
                 if (response.isSuccessful()) {
-                    BangumiListData data = response.body().getData();
-                    List<BangumiBrief> bangumiList = data.getBangumiList();
-                    rankView.setAdapter(new BangumiBriefAdapter(bangumiList));
+                    BangumiListScoreData data = response.body().getData();
+                    List<BangumiBriefScore> bangumiList = data.getBangumiList();
+                    rankView.setAdapter(new BangumiBriefScoreAdapter(bangumiList));
                     rankView.setLayoutManager(new GridLayoutManager(getContext(), 3));
                 }
             }
 
             @Override
-            public void onFailure(Call<BangumiListResponse> call, Throwable t) {
+            public void onFailure(Call<BangumiListScoreResponse> call, Throwable t) {
                 System.out.println("fail");
             }
         });
+    }
+
+    /*
+     * click the text and switch to the rank fragment
+     */
+    private void setRankListener() {
+        TextView toRank = view.findViewById(R.id.to_rank);
+        toRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Rank();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container, fragment);
+                navigationView.setSelectedItemId(navigationView.getMenu().getItem(2).getItemId());
+                ft.commit();
+            }
+        });
+    }
+
+    /*
+     * click the text and switch to the season fragment
+     */
+    private void setSeasonListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Season();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container, fragment);
+                navigationView.setSelectedItemId(navigationView.getMenu().getItem(1).getItemId());
+                ft.commit();
+            }
+        };
+        TextView toSeason1 = view.findViewById(R.id.to_season_1);
+        TextView toSeason2 = view.findViewById(R.id.to_season_2);
+        TextView toSeason3 = view.findViewById(R.id.to_season_3);
+        toSeason1.setOnClickListener(listener);
+        toSeason2.setOnClickListener(listener);
+        toSeason3.setOnClickListener(listener);
     }
 
     /*

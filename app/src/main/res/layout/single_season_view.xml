@@ -25,10 +25,9 @@
             android:id="@+id/viewMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/arrow"
-            android:text="更多"
-            android:textColor="@color/divider"
-            app:iconSize="5dp"
+            android:text="@string/viewMore"
+            android:textColor="@color/viewMore_color"
+            android:drawableRight="@drawable/arrow_icon"
             android:layout_margin="7dp"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>

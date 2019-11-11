@@ -1,6 +1,7 @@
 package com.example.aniscoreandroid;
 
 import com.example.aniscoreandroid.model.BangumiListResponse;
+import com.example.aniscoreandroid.model.BangumiListScoreResponse;
 import com.example.aniscoreandroid.model.BangumiResponse;
 
 import retrofit2.Call;
@@ -12,7 +13,7 @@ public interface ServerCall {
     Call<BangumiResponse> getBangumiDetailById(@Path("bangumiId") String bangumiId);
 
     @GET("/api/bangumiList/rank/{bangumiNumber}")
-    Call<BangumiListResponse> getBangumiRank(@Path("bangumiNumber") int bangumiNumber);
+    Call<BangumiListScoreResponse> getBangumiRank(@Path("bangumiNumber") int bangumiNumber);
 
     // get 10 bangumis of given year and season
     @GET("/api/bangumi/{year}/{season}/limit")

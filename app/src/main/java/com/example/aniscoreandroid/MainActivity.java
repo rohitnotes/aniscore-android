@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new Season();
                 break;
             case R.id.rank:
+                fragment = new Rank();
                 break;
         }
         if (fragment != null) {

@@ -6,4 +6,6 @@
     <color name="titleColor">#000000</color>
     <color name="divider">#dfdfdf</color>
     <color name="app_background">#ffffff</color>
+    <color name="viewMore_color">#bcbcbc</color>
+    <color name="score_color">#ffae42</color>
 </resources>
