@@ -132,18 +132,23 @@ public class Season extends Fragment {
     /*
      * sort the new added season by date
      */
-    private void addToList(int year, int month, List<BangumiBrief> list) {
-       if (seasonBangumiList.size() == 0) {
-           int[] temp = new int[2];
-           temp[0] = year;
-           temp[1] = month;
-           map.put(0, temp);
-           seasonBangumiList.add(list);
-           return;
-       }
-       int current = seasonBangumiList.size()-1;
-        while (current >= 0 && map.get(current)[0] == year) {
-            if (month < map.get(current)[1]) {
+    private synchronized void addToList(int year, int month, List<BangumiBrief> list) {
+        if (seasonBangumiList.size() == 0) {
+            int[] temp = new int[2];
+            temp[0] = year;
+            temp[1] = month;
+            map.put(0, temp);
+            seasonBangumiList.add(list);
+            return;
+        }
+        int current = seasonBangumiList.size()-1;
+        if (year < map.get(current)[0]) {
+            seasonBangumiList.add(list);
+            map.put(current+1, new int[]{year, month});
+            return;
+        }
+        while (current >= 0 && map.get(current)[0] <= year) {
+            if (month < map.get(current)[1] && year == map.get(current)[0]) {
                 break;
             }
             current--;
