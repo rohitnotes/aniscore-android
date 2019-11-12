@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,26 +15,29 @@ import com.example.aniscoreandroid.model.BangumiListResponse;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Season extends Fragment {
     private RecyclerView recyclerView;
-    CountDownLatch latch;
     private List<List<BangumiBrief>> seasonBangumiList;
     private View view;
-    private int seasonNum;
+    Hashtable<Integer, int[]> map = new Hashtable<>();
     private int currentYear;
+    private int currentMonth;
     private int startYear = 2005;
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
+    BangumiSeasonAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -43,123 +45,75 @@ public class Season extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         Calendar cal = Calendar.getInstance();
         currentYear = cal.get(Calendar.YEAR);
-        seasonNum = getSeasonNumber();
-        seasonBangumiList = new ArrayList<>();
-        for (int i = 0; i < seasonNum; i++) {
-            seasonBangumiList.add(new ArrayList<BangumiBrief>());
-        }
-        latch = new CountDownLatch(seasonNum);
-        loadBangumi();
+        currentMonth = cal.get(Calendar.MONTH)+1;
+        seasonBangumiList = new LinkedList<>();
+        adapter = new BangumiSeasonAdapter(seasonBangumiList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setAdapter(adapter);
+        loadBangumi(0);
+        recyclerView.addOnScrollListener(new EndlessListLoad(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadBangumi(page);
+            }
+        });
+        recyclerView.setLayoutManager(linearLayoutManager);
         return view;
     }
 
-    public void onResume() {
-        super.onResume();
-        recyclerView.setAdapter(new BangumiSeasonAdapter(seasonBangumiList));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    /*
-     * get 3 bangumi from each season concurrently
-     */
-    public void loadBangumi() {
-        ExecutorService exec = Executors.newCachedThreadPool();
-        String[] currentTime = getCurrentSeason();
-        int year = Integer.parseInt(currentTime[0]);
-        int month = Integer.parseInt(currentTime[2]);
-        for (int i = month; i >= 1; i-=3) {                             //get all bangumi of current year
-            final String season = getSeasonGivenMonth(i);
-            final String yearStr = year + "";
-            final int mon = i;
+    public void loadBangumi(int idx) {
+        ExecutorService exec = Executors.newFixedThreadPool(8);
+        final int year = currentYear-idx;
+        if (year < startYear) {
+            return;
+        }
+        final String yearStr = year + "";
+        for (int j = 10; j >= 1; j -= 3) {
+            if (j > currentMonth && year == currentYear) {
+                continue;
+            }
+            final String season = getSeasonGivenMonth(j);
+            final int month = j;
             exec.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getBangumiOfYearSeason(yearStr, season, mon);
+                    getBangumiOfYearSeason(yearStr, season, month);
                 }
             });
         }
-        // get previous year bangumi
-        for (int i = year-1; i >= startYear; i--) {
-            for (int j = 10; j >= 1; j-=3) {
-                final String season = getSeasonGivenMonth(j);
-                final String yearStr = i + "";
-                final int mon = j;
-                exec.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        getBangumiOfYearSeason(yearStr, season, mon);
-                    }
-                });
-            }
-        }
         exec.shutdown();
-        try {
-            latch.await();
-        } catch(Exception e) {
-        } finally{
-            recyclerView.setAdapter(new BangumiSeasonAdapter(seasonBangumiList));
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
     }
 
     private void getBangumiOfYearSeason(final String year, String season, final int month) {
+        if (Integer.parseInt(year) < startYear) {
+            return;
+        }
+        final int yearNum = Integer.parseInt(year);
         ServerCall service = retrofit.create(ServerCall.class);
         Call<BangumiListResponse> getBangumiCall = service.getBangumiOfYearSeasonLimit(year, season);
-        BangumiListData data = null;
-        try {
-            data = getBangumiCall.execute().body().getData();
-        } catch(Exception e) {
-            ((TextView) view.findViewById(R.id.test)).setText(e.toString());
-        }
-        if (data != null) {
-            List<BangumiBrief> bangumiList = data.getBangumiList();
-            int idx = (currentYear - Integer.parseInt(year)) * 4 + (10-month)/3;
-            if (bangumiList.size() > 3) {
-                List<BangumiBrief> firstThreeBangumi = new ArrayList<>();
-                firstThreeBangumi.add(bangumiList.get(0));
-                firstThreeBangumi.add(bangumiList.get(1));
-                firstThreeBangumi.add(bangumiList.get(2));
-                seasonBangumiList.set(idx, firstThreeBangumi);
-            } else {
-                seasonBangumiList.set(idx, bangumiList);
-            }
-        }
-        latch.countDown();
-
-
-        /*getBangumiCall.enqueue(new Callback<BangumiListResponse>() {
+        getBangumiCall.enqueue(new Callback<BangumiListResponse>() {
             @Override
             public void onResponse(Call<BangumiListResponse> call, Response<BangumiListResponse> response) {
                 BangumiListData data = response.body().getData();
                 List<BangumiBrief> bangumiList = data.getBangumiList();
-                int idx = (currentYear - Integer.parseInt(year)) * 4 + (10-month)/3;
                 if (bangumiList.size() > 3) {
                     List<BangumiBrief> firstThreeBangumi = new ArrayList<>();
                     firstThreeBangumi.add(bangumiList.get(0));
                     firstThreeBangumi.add(bangumiList.get(1));
                     firstThreeBangumi.add(bangumiList.get(2));
-                    seasonBangumiList.set(idx, firstThreeBangumi);
+                    addToList(yearNum, month, firstThreeBangumi);
                 } else {
-                    seasonBangumiList.set(idx, bangumiList);
+                    addToList(yearNum, month, bangumiList);
                 }
-                //latch.countDown();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<BangumiListResponse> call, Throwable t) {
-
+                System.out.println("fail");
             }
-        });*/
+        });
     }
-
-
-    private int getSeasonNumber() {
-        String[] current = getCurrentSeason();
-        int month = Integer.parseInt(current[2]);
-        int year = Integer.parseInt(current[0]);
-        return (year-startYear) * 4 + (month-1)/3 + 1;
-    }
-
 
     private String getSeasonGivenMonth(int month) {
         String season = "";
@@ -169,34 +123,47 @@ public class Season extends Fragment {
             season = "spring";
         } else if (month == 7) {
             season = "summer";
-        } else {
+        } else if (month == 10) {
             season = "fall";
         }
         return season;
     }
 
-
-    private String[] getCurrentSeason() {
-        Date date = new Date();
-        String[] time = new String[3];      // time[0] is year, time[1] is season
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int year = cal.get(Calendar.YEAR);
-        time[0] = year + "";
-        if (month >= 1 && month <= 4) {
-            time[1] = "winter";
-            time[2] = "1";
-        } else if (month >= 4 && month <= 7) {
-            time[1] = "spring";
-            time[2] = "4";
-        } else if (month >= 7 && month <= 10) {
-            time[1] = "summer";
-            time[2] = "7";
-        } else {
-            time[1] = "fall";
-            time[2] = "10";
+    /*
+     * sort the new added season by date
+     */
+    private void addToList(int year, int month, List<BangumiBrief> list) {
+       if (seasonBangumiList.size() == 0) {
+           int[] temp = new int[2];
+           temp[0] = year;
+           temp[1] = month;
+           map.put(0, temp);
+           seasonBangumiList.add(list);
+           return;
+       }
+       int current = seasonBangumiList.size()-1;
+        while (current >= 0 && map.get(current)[0] == year) {
+            if (month < map.get(current)[1]) {
+                break;
+            }
+            current--;
         }
-        return time;
+        if (current == seasonBangumiList.size()-1) {
+            seasonBangumiList.add(list);
+            map.put(seasonBangumiList.size()-1, new int[]{year, month});
+            return;
+        } else if (current >= 0) {
+            seasonBangumiList.add(current+1, list);
+        } else {
+            seasonBangumiList.add(0, list);
+        }
+        int[] origin = map.get(current+1);
+        map.put(current+1,new int[] {year, month});
+        for (int i = current+2; i < seasonBangumiList.size()-1; i++) {
+            int[] temp = map.get(i);
+            map.put(i, origin);
+            origin = temp;
+        }
+        map.put(seasonBangumiList.size()-1, origin);
     }
 }
