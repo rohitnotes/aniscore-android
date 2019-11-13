@@ -8,13 +8,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.aniscoreandroid.homeView.Home;
+import com.example.aniscoreandroid.homeView.Rank;
+import com.example.aniscoreandroid.homeView.Season;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private int selectId = 0;
-    final static String SELECTED_YEAR = "BANGUMI_YEAR";
-    final static String SELECTED_SEASON = "BANGUMI_SEASON";
+    public final static String SELECTED_YEAR = "BANGUMI_YEAR";
+    public final static String SELECTED_SEASON = "BANGUMI_SEASON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

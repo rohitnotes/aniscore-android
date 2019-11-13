@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public abstract class EndlessListLoad extends RecyclerView.OnScrollListener {
-    private int visibleThreshold = 2;
+    private int visibleThreshold = 4;
     private int currentPage = 0;
     private int startPage = 0;
     private int previousItemTotalNum = 0;

@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.homeView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aniscoreandroid.adapter.EndlessListLoad;
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.ServerCall;
+import com.example.aniscoreandroid.adapter.BangumiSeasonAdapter;
 import com.example.aniscoreandroid.model.BangumiBrief;
 import com.example.aniscoreandroid.model.BangumiListData;
 import com.example.aniscoreandroid.model.BangumiListResponse;
@@ -62,7 +66,7 @@ public class Season extends Fragment {
     }
 
     public void loadBangumi(int idx) {
-        ExecutorService exec = Executors.newFixedThreadPool(8);
+        ExecutorService exec = Executors.newFixedThreadPool(4);
         final int year = currentYear-idx;
         if (year < startYear) {
             return;
@@ -157,10 +161,8 @@ public class Season extends Fragment {
             seasonBangumiList.add(list);
             map.put(seasonBangumiList.size()-1, new int[]{year, month});
             return;
-        } else if (current >= 0) {
-            seasonBangumiList.add(current+1, list);
         } else {
-            seasonBangumiList.add(0, list);
+            seasonBangumiList.add(current+1, list);
         }
         int[] origin = map.get(current+1);
         map.put(current+1,new int[] {year, month});

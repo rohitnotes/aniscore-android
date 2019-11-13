@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.BangumiBriefScore;
 
 import java.util.List;

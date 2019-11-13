@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.homeView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.ServerCall;
+import com.example.aniscoreandroid.adapter.BangumiBriefAdapter;
+import com.example.aniscoreandroid.adapter.BangumiBriefScoreAdapter;
 import com.example.aniscoreandroid.model.BangumiBrief;
 import com.example.aniscoreandroid.model.BangumiBriefScore;
 import com.example.aniscoreandroid.model.BangumiListData;

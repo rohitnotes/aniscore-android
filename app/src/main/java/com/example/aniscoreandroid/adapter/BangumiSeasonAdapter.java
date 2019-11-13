@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aniscoreandroid.MainActivity;
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.SeasonBangumiActivity;
 import com.example.aniscoreandroid.model.BangumiBrief;
 
 import java.util.Calendar;
