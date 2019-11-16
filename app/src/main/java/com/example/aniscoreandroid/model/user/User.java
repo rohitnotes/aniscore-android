@@ -1,13 +1,14 @@
 package com.example.aniscoreandroid.model.user;
 
-import com.example.aniscoreandroid.model.user.avatar.AvatarData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class User {
-    @SerializedName("avatar")
-    @Expose
-    private AvatarData avatar;
+    @SerializedName("username")
+    private String username;
+
+    @SerializedName("email")
+    private String email;
 
     @SerializedName("scoreAnime")
     @Expose
@@ -25,13 +26,15 @@ public class User {
     @Expose
     private String userId;
 
-    @SerializedName("username")
-    private String username;
+    @SerializedName("avatar")
+    @Expose
+    private String avatar;
 
-    @SerializedName("email")
-    private String email;
+    @SerializedName("background")
+    @Expose
+    private String background;
 
-    public AvatarData getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 

@@ -3,17 +3,17 @@ package com.example.aniscoreandroid.model.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
-    @SerializedName("status")
+public class AuthResponse {
+    @SerializedName("message")
     @Expose
-    private String status;
+    private String message;
 
     @SerializedName("data")
     @Expose
     private User user;
 
-    public String getStatus() {
-        return status;
+    public String getMessage() {
+        return message;
     }
 
     public User getUser() {

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/home"
         android:title="@string/home"
-        android:icon="@drawable/home"
-        />
+        app:showAsAction="withText"
+        android:icon="@drawable/home" />
 
     <item android:id="@+id/season"
         android:title="@string/season"
+        app:showAsAction="withText"
         android:icon="@drawable/tv"/>
 
     <item android:id="@+id/rank"
         android:title="@string/rank"
+        app:showAsAction="withText"
         android:icon="@drawable/star"/>
+
+    <item android:id="@+id/user"
+        android:title="@string/user"
+        app:showAsAction="withText"
+        android:icon="@drawable/account"/>
 </menu>

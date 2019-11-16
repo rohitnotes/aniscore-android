@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/avatar"
+        android:title="avatar"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/login"
         android:title="Log in"
         app:showAsAction="ifRoom"
         android:clickable="true"
         android:focusable="true"/>
-
-    <item
-        android:id="@+id/user"
-        android:title="No user"
-        app:showAsAction="ifRoom"
-        android:clickable="true"
-        android:focusable="true"/>
-
 </menu>

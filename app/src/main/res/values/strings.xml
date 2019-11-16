@@ -4,7 +4,9 @@
     <string name="home">Home</string>
     <string name="season">Season</string>
     <string name="rank">Rank</string>
+    <string name="user">User</string>
     <string name="viewMore">更多</string>
     <string name="full_rank">番剧排行榜</string>
     <string name="season_list">分季列表</string>
+    <string name="profile_photo">Profile Photo</string>
 </resources>

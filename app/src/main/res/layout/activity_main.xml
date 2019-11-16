@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation_bar"
-        app:itemIconSize="30dp"/>
+        app:itemIconSize="30dp" />
 
 </LinearLayout>

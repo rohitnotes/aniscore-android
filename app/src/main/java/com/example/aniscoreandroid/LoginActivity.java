@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.aniscoreandroid.model.user.LoginResponse;
+import com.example.aniscoreandroid.model.user.AuthResponse;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
@@ -20,16 +20,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-    Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
+    private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
     private String email = "";
-    private String password = "";
+    private String password= "";
     private EditText enterEmail;
     private EditText enterPassword;
     private TextChangeListener emailListener;
     private TextChangeListener passwordListener;
     public static final String CURRENT_USER_NAME = "CURRENT_USER_NAME";
-    private String user = "";
+    public static final String CURRENT_USER_AVATAR = "CURRENT_USER_AVATAR";
+    public static final String CURRENT_USER_ID = "CURRENT_USER_ID";
+    public static final String CURRENT_USER_EMAIL = "CURRENT_USER_EMAIL";
+    private String username = "";
+    private String avatar = "";
+    private String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +62,15 @@ public class LoginActivity extends AppCompatActivity {
         HashMap<String, String> input = new HashMap<>();
         input.put("email", email);
         input.put("password", password);
-        final Call<LoginResponse> loginCall = service.login(input);
-        loginCall.enqueue(new Callback<LoginResponse>() {
+        final Call<AuthResponse> loginCall = service.login(input);
+        loginCall.enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.body().getStatus().equals("Successfully Login")) {            // successfully login
-                    ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getUsername());
-                    user = response.body().getUser().getUsername();
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.body().getMessage().equals("Successfully Login")) {            // successfully login
+                    ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getAvatar());
+                    username = response.body().getUser().getUsername();
+                    avatar = response.body().getUser().getAvatar();
+                    userId = response.body().getUser().getUserId();
                     toHome();
                 } else {
                     ((TextView)findViewById(R.id.test)).setText("password error");
@@ -71,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
                 System.out.println("fail");
             }
         });
@@ -79,27 +86,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void toHome() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(CURRENT_USER_NAME, user);
+        intent.putExtra(CURRENT_USER_NAME, username);
+        intent.putExtra(CURRENT_USER_AVATAR, avatar);
+        intent.putExtra(CURRENT_USER_EMAIL, email);
+        intent.putExtra(CURRENT_USER_ID, userId);
         startActivity(intent);
     }
-
-    /*private void getCurrentUser() {
-        ServerCall service = retrofit.create(ServerCall.class);
-        ((TextView)findViewById(R.id.test)).setText("calling function");
-        Call<UserResponse> currentUserCall = service.getCurrentUser();
-        currentUserCall.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                ((TextView)findViewById(R.id.test)).setText(response.body().getMessage());
-                if (response.body().getMessage().equals("success")) {
-                    ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getUsername());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-
-            }
-        });
-    }*/
 }

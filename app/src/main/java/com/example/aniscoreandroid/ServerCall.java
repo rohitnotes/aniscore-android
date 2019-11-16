@@ -3,15 +3,12 @@ package com.example.aniscoreandroid;
 import com.example.aniscoreandroid.model.BangumiListResponse;
 import com.example.aniscoreandroid.model.BangumiListScoreResponse;
 import com.example.aniscoreandroid.model.BangumiResponse;
-import com.example.aniscoreandroid.model.user.LoginResponse;
-import com.example.aniscoreandroid.model.user.UserResponse;
-
+import com.example.aniscoreandroid.model.user.AuthResponse;
 import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -33,11 +30,8 @@ public interface ServerCall {
 
     @Headers("Content-Type: application/json")
     @POST("/api/auth/login")
-    Call<LoginResponse> login(@Body HashMap<String, String> input);
+    Call<AuthResponse> login(@Body HashMap<String, String> input);
 
-    @Headers({"Access-Control-Allow-Origin: *",
-            "Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, authorization",
-    "Content-Type: application/json; charset=utf-8"})
-    @GET("/api/auth/currentUser")
-    Call<UserResponse> getCurrentUser();
+    @POST("/api/auth/logout")
+    Call<AuthResponse> logout();
 }

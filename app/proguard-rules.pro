@@ -25,3 +25,6 @@
   **[] $VALUES;
   public *;
 }
+
+-keep class com.bumptech.** {*;}
+-keepclassmembers class com.bumptech.** {*;}
