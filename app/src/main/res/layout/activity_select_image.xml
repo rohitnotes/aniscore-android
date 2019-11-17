@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SelectImageActivity"
+    android:background="#000000">
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:id="@+id/selectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="@string/select_image"
+        android:width="350dp"
+        android:textAlignment="center"
+        android:paddingTop="15dp"
+        android:textSize="6pt"
+        android:textStyle="bold"
+        android:paddingBottom="15dp"
+        android:backgroundTint="@color/select_image_color"
+        android:textColor="@color/app_background"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:id="@+id/uploadImageButton"
+        android:layout_marginTop="10dp"
+        android:text="@string/upload"
+        android:width="350dp"
+        android:textStyle="bold"
+        android:textSize="6pt"
+        android:textAlignment="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:backgroundTint="@color/select_image_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/app_background"/>
+
+    <TextView
+        android:id="@+id/image_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/image_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/debug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
