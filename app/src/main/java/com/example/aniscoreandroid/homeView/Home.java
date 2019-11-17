@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -50,6 +52,7 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         view = inflater.inflate(R.layout.home_view, container, false);
+        view.setVisibility(View.GONE);
         rankView = view.findViewById(R.id.rank_list);
         currentBangumiView = view.findViewById(R.id.current_bangumi_list);
         previousBangumiView = view.findViewById(R.id.previous_bangumi_list);
@@ -103,6 +106,7 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<BangumiListScoreResponse> call, Response<BangumiListScoreResponse> response) {
                 if (response.isSuccessful()) {
+                    view.setVisibility(View.VISIBLE);
                     BangumiListScoreData data = response.body().getData();
                     List<BangumiBriefScore> bangumiList = data.getBangumiList();
                     rankView.setAdapter(new BangumiBriefScoreAdapter(bangumiList));
@@ -196,6 +200,7 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<BangumiListResponse> call, Response<BangumiListResponse> response) {
                 if (response.isSuccessful()) {
+                    view.setVisibility(View.VISIBLE);
                     BangumiListData data = response.body().getData();
                     List<BangumiBrief> bangumiList = data.getBangumiList();
                     if (bangumiList.size() > 3) {

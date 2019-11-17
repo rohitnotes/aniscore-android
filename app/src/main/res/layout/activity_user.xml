@@ -14,8 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="220dp"
         android:src="@drawable/default_background"
-        android:minHeight="220dp"
-        android:maxHeight="220dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         />

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.aniscoreandroid.homeView.Home;
 import com.example.aniscoreandroid.homeView.Rank;
@@ -70,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
             String username = intent.getStringExtra(LoginActivity.CURRENT_USER_NAME);
             // currently there is user logged in
             if (username != null && username.length() > 0) {
-                String email = intent.getStringExtra(LoginActivity.CURRENT_USER_EMAIL);
                 String userId = intent.getStringExtra(LoginActivity.CURRENT_USER_ID);
+                String email = intent.getStringExtra(LoginActivity.CURRENT_USER_EMAIL);
                 String avatar = intent.getStringExtra(LoginActivity.CURRENT_USER_AVATAR);
                 editor.putString("username", username);
                 editor.putString("email", email);
@@ -115,18 +117,25 @@ public class MainActivity extends AppCompatActivity {
         avatar.setMinimumHeight(120);
         final Context context = avatar.getContext();
         if (preference != null && preference.getString("avatar", "").length() > 0) {
-            Glide.with(this).load(baseUrl + preference.getString("avatar", null)).asBitmap().centerCrop().
-                    into(new BitmapImageViewTarget(avatar) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            RoundedBitmapDrawable circularBitmapDrawable =
-                                    RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                            circularBitmapDrawable.setCircular(true);
-                            avatar.setImageDrawable(circularBitmapDrawable);
-                        }
-                    });
+            Glide.with(this).load(baseUrl + preference.getString("avatar", null))
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                    .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         }
         menu.findItem(R.id.avatar).setActionView(avatar);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toUser();
+            }
+        });
         return true;
     }
 
@@ -135,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void toLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    /*
+     * click the user avatar if there is one to direct to user page
+     */
+    private void toUser() {
+        Intent intent = new Intent(this, UserActivity.class);
+        String userId = preference.getString("userId", "");
+        intent.putExtra("USER_ID", userId);
         startActivity(intent);
     }
 
@@ -151,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     if (response.body().getMessage().equals("Log Out Successfully")) {
                         Intent intent = getIntent();
                         editor.clear();
-                        editor.commit();
+                        editor.apply();
                         intent.putExtra(LoginActivity.CURRENT_USER_NAME, "");
                         intent.putExtra(LoginActivity.CURRENT_USER_ID, "");
                         intent.putExtra(LoginActivity.CURRENT_USER_AVATAR, "");
@@ -166,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                System.out.println("fail");
+                System.out.println(t.toString());
             }
         });
     }

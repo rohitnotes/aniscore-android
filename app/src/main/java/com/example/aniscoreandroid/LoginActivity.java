@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                System.out.println("fail");
+                System.out.println(t.toString());
             }
         });
     }

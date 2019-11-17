@@ -8,11 +8,15 @@ import com.example.aniscoreandroid.model.user.UserResponse;
 
 import java.util.HashMap;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ServerCall {
@@ -39,4 +43,12 @@ public interface ServerCall {
 
     @GET("/api/user/{userId}")
     Call<UserResponse> getUserById(@Path("userId") String userId);
+
+    @Multipart
+    @PUT("/api/avatar/{userId}")
+    Call<UserResponse> updateAvatarById(@Path("userId") String userId, @Part MultipartBody.Part avatar);
+
+    @Multipart
+    @PUT("/api/background/{userId}")
+    Call<UserResponse> updateBackgroundById(@Path("userId") String userId, @Part MultipartBody.Part background);
 }

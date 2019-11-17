@@ -2,24 +2,18 @@ package com.example.aniscoreandroid;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.widget.FrameLayout;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
@@ -55,7 +49,6 @@ public class UserActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getMessage().equals("Succesfully find the user")) {
                         user = response.body().getUserData().getUser();
-                        //((TextView)findViewById(R.id.test)).setText(user.getBackground());
                         setView(user);
                     }
                 }
@@ -73,22 +66,52 @@ public class UserActivity extends AppCompatActivity {
         final ImageView background = findViewById(R.id.background);
         String backgroundPath = user.getBackground();
         if (backgroundPath != null && backgroundPath.length() > 0) {
-            Glide.with(this).load(baseUrl + backgroundPath).into(background);
+            // avoid caching in order to update background
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            Glide.with(this).load(baseUrl + backgroundPath).centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(background);
         }
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage("background");
+            }
+        });
         // set avatar
         final ImageView avatar = findViewById(R.id.avatar);
         String avatarPath = user.getAvatar();
         if (avatarPath != null && avatarPath.length() > 0) {
-            Glide.with(this).load(baseUrl + user.getAvatar()).asBitmap().centerCrop()
-                    .into(new BitmapImageViewTarget(avatar) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            RoundedBitmapDrawable circularBitmapDrawable =
-                                    RoundedBitmapDrawableFactory.create(getResources(), resource);
-                            circularBitmapDrawable.setCircular(true);
-                            avatar.setImageDrawable(circularBitmapDrawable);
-                        }
-                    });
+            // avoid caching in order to update background
+            Glide.with(this).load(baseUrl + user.getAvatar()).asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         }
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage("avatar");
+            }
+        });
+    }
+
+    private void selectImage(String mode) {
+        Intent intent = new Intent(this, SelectImageActivity.class);
+        intent.putExtra("MODE", mode);
+        intent.putExtra("USER_ID", userId);
+        if (mode.equals("avatar")) {
+            intent.putExtra("CURRENT_IMAGE", user.getAvatar());
+        } else {
+            intent.putExtra("CURRENT_IMAGE", user.getBackground());
+        }
+        startActivity(intent);
     }
 }
