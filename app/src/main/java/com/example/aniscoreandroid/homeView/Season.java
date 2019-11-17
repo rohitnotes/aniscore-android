@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.adapter.EndlessListLoad;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.ServerCall;
+import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.adapter.BangumiSeasonAdapter;
-import com.example.aniscoreandroid.model.BangumiBrief;
-import com.example.aniscoreandroid.model.BangumiListData;
-import com.example.aniscoreandroid.model.BangumiListResponse;
+import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
+import com.example.aniscoreandroid.model.bangumiList.BangumiListData;
+import com.example.aniscoreandroid.model.bangumiList.BangumiListResponse;
 
 import java.util.ArrayList;
 import java.util.Calendar;

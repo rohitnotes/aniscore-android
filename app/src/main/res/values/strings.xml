@@ -9,4 +9,6 @@
     <string name="full_rank">番剧排行榜</string>
     <string name="season_list">分季列表</string>
     <string name="profile_photo">Profile Photo</string>
+    <string name="login">Log in</string>
+    <string name="notify_login">Login to see your account</string>
 </resources>

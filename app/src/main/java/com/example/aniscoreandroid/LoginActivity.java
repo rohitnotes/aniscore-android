@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aniscoreandroid.model.user.AuthResponse;
+import com.example.aniscoreandroid.utils.ServerCall;
+import com.example.aniscoreandroid.utils.TextChangeListener;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
@@ -66,14 +68,16 @@ public class LoginActivity extends AppCompatActivity {
         loginCall.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                if (response.body().getMessage().equals("Successfully Login")) {            // successfully login
-                    ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getAvatar());
-                    username = response.body().getUser().getUsername();
-                    avatar = response.body().getUser().getAvatar();
-                    userId = response.body().getUser().getUserId();
-                    toHome();
-                } else {
-                    ((TextView)findViewById(R.id.test)).setText("password error");
+                if (response.isSuccessful()) {
+                    if (response.body().getMessage().equals("Successfully Login")) {            // successfully login
+                        ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getAvatar());
+                        username = response.body().getUser().getUsername();
+                        avatar = response.body().getUser().getAvatar();
+                        userId = response.body().getUser().getUserId();
+                        toHome();
+                    } else {
+                        ((TextView)findViewById(R.id.test)).setText(("password error"));
+                    }
                 }
             }
 

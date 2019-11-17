@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.adapter.BangumiBriefAdapter;
-import com.example.aniscoreandroid.model.BangumiBrief;
-import com.example.aniscoreandroid.model.BangumiListData;
-import com.example.aniscoreandroid.model.BangumiListResponse;
+import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
+import com.example.aniscoreandroid.model.bangumiList.BangumiListData;
+import com.example.aniscoreandroid.model.bangumiList.BangumiListResponse;
+import com.example.aniscoreandroid.utils.ServerCall;
 
 import java.util.List;
 

@@ -1,9 +1,11 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.utils;
 
-import com.example.aniscoreandroid.model.BangumiListResponse;
-import com.example.aniscoreandroid.model.BangumiListScoreResponse;
+import com.example.aniscoreandroid.model.bangumiList.BangumiListResponse;
+import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreResponse;
 import com.example.aniscoreandroid.model.BangumiResponse;
 import com.example.aniscoreandroid.model.user.AuthResponse;
+import com.example.aniscoreandroid.model.user.UserResponse;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -34,4 +36,7 @@ public interface ServerCall {
 
     @POST("/api/auth/logout")
     Call<AuthResponse> logout();
+
+    @GET("/api/user/{userId}")
+    Call<UserResponse> getUserById(@Path("userId") String userId);
 }

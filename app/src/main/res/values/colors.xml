@@ -8,4 +8,5 @@
     <color name="app_background">#ffffff</color>
     <color name="viewMore_color">#bcbcbc</color>
     <color name="score_color">#ffae42</color>
+    <color name="button_color">#0077be</color>
 </resources>

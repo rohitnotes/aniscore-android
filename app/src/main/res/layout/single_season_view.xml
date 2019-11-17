@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -25,11 +24,22 @@
             android:id="@+id/viewMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/arrow"
             android:text="@string/viewMore"
-            android:textColor="@color/viewMore_color"
-            android:drawableRight="@drawable/arrow_icon"
-            android:layout_margin="7dp"
-            android:layout_alignParentEnd="true"/>
+            android:textColor="@color/viewMore_color"/>
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/arrow_icon"
+            app:tint="@color/viewMore_color"/>
+
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

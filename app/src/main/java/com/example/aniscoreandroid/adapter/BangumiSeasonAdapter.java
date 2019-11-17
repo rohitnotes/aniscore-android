@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aniscoreandroid.MainActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.SeasonBangumiActivity;
-import com.example.aniscoreandroid.model.BangumiBrief;
+import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
 
 import java.util.Calendar;
 import java.util.Date;

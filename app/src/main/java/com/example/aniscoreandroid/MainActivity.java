@@ -24,6 +24,7 @@ import com.example.aniscoreandroid.homeView.Rank;
 import com.example.aniscoreandroid.homeView.Season;
 import com.example.aniscoreandroid.homeView.User;
 import com.example.aniscoreandroid.model.user.AuthResponse;
+import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
@@ -60,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
         MenuItem home = navigationView.getMenu().getItem(0);
         selectFragment(home);
         selectId = R.id.home;
+        // first time initiate the app
         if (preference == null) {
             preference = getApplicationContext().getSharedPreferences("Current user", Context.MODE_PRIVATE);
             editor = preference.edit();
-        } else {
+        } else {            // the shared preference has been initialized
             Intent intent = getIntent();
             String username = intent.getStringExtra(LoginActivity.CURRENT_USER_NAME);
             // currently there is user logged in
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         MenuItem authItem= menu.findItem(R.id.login);
+        // currently there is a user logged in
         if (preference != null && preference.getString("username", null) != null) {
             authItem.setTitle("Log out");
             authItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        } else {
+        } else {            // currently there is no user logged in
             authItem.setTitle("Log in");
             authItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        // set avatar
         final ImageView avatar = new ImageView(this);
         avatar.setMaxWidth(120);
         avatar.setMinimumWidth(120);
@@ -126,11 +130,17 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
+     * click the login on the navigation bar to direct to login page
+     */
     private void toLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /*
+     * click the logout on the navibar to logout
+     */
     private void logout() {
         ServerCall service = retrofit.create(ServerCall.class);
         Call<AuthResponse> logoutCall = service.logout();
@@ -140,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getMessage().equals("Log Out Successfully")) {
                         Intent intent = getIntent();
-                        //outState.clear();
                         editor.clear();
                         editor.commit();
                         intent.putExtra(LoginActivity.CURRENT_USER_NAME, "");
@@ -162,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * listener for selecting menu items of the bottom navigation bar
+    */
     private void selectFragment(MenuItem menuItem) {
         Fragment fragment = null;
         switch(menuItem.getItemId()) {

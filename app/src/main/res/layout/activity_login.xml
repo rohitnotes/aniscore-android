@@ -39,8 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="log in"
-        android:padding="10dp"
-        android:background="@color/colorPrimary"
+        android:text="@string/login"
+        android:padding="15dp"
+        android:backgroundTint="@color/button_color"
+        android:textColor="@color/app_background"
         android:layout_gravity="center"/>
 </LinearLayout>

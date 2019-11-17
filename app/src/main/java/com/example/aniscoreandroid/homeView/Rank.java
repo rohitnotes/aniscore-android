@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.ServerCall;
+import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.adapter.BangumiRankAdapter;
-import com.example.aniscoreandroid.model.BangumiBriefScore;
-import com.example.aniscoreandroid.model.BangumiListScoreData;
-import com.example.aniscoreandroid.model.BangumiListScoreResponse;
+import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
+import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreData;
+import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreResponse;
 
 import java.util.List;
 

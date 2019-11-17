@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.model.BangumiBrief;
+import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
 
 import java.util.List;
 

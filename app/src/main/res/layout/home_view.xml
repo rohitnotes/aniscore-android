@@ -12,14 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@color/app_background">
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/background_image"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:src="@drawable/background"
             app:layout_constraintBottom_toTopOf="@id/rank_title"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
+            android:background="@drawable/background"/>
 
         <TextView
             android:id="@+id/rank_title"
@@ -38,12 +37,27 @@
             android:id="@+id/to_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
+            app:layout_constraintRight_toLeftOf="@id/arrow_1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
             app:layout_constraintTop_toBottomOf="@id/background_image"
+            android:text="@string/full_rank"/>
+
+        <ImageView
+            android:id="@+id/arrow_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/full_rank"
-            android:drawableRight="@drawable/arrow_icon"/>
+            app:layout_constraintTop_toBottomOf="@id/background_image"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/arrow_icon"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            app:tint="@color/viewMore_color"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rank_list"
@@ -76,14 +90,30 @@
             app:layout_constraintTop_toBottomOf="@id/divider_1"/>
 
         <TextView
-        android:id="@+id/to_season_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_1"
-        android:layout_margin="10dp"
-        android:text="@string/season_list"
-        android:drawableRight="@drawable/arrow_icon"/>
+            android:id="@+id/to_season_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/arrow_2"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:text="@string/season_list" />
+
+        <ImageView
+            android:id="@+id/arrow_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/arrow_icon"
+            app:tint="@color/viewMore_color"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/current_bangumi_list"
@@ -118,11 +148,27 @@
             android:id="@+id/to_season_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/arrow_3"
+            app:layout_constraintTop_toBottomOf="@id/divider_2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:text="@string/season_list"/>
+
+        <ImageView
+            android:id="@+id/arrow_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_2"
-            android:layout_margin="10dp"
-            android:text="@string/season_list"
-            android:drawableRight="@drawable/arrow_icon"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/arrow_icon"
+            app:tint="@color/viewMore_color"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/previous_bangumi_list"
@@ -157,11 +203,27 @@
             android:id="@+id/to_season_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/arrow_4"
+            app:layout_constraintTop_toBottomOf="@id/divider_3"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:text="@string/season_list"/>
+
+        <ImageView
+            android:id="@+id/arrow_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_3"
-            android:layout_margin="10dp"
-            android:text="@string/season_list"
-            android:drawableRight="@drawable/arrow_icon"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="2dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/arrow_icon"
+            app:tint="@color/viewMore_color"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/before_previous_bangumi_list"

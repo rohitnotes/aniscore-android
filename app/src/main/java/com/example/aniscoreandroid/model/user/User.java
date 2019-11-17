@@ -22,7 +22,7 @@ public class User {
     @Expose
     private String[] follower;
 
-    @SerializedName("id")
+    @SerializedName("_id")
     @Expose
     private String userId;
 
@@ -33,10 +33,6 @@ public class User {
     @SerializedName("background")
     @Expose
     private String background;
-
-    public String getAvatar() {
-        return avatar;
-    }
 
     public ScoredBangumi[] getScoredBangumis() {
         return scoredBangumis;
@@ -60,5 +56,13 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.model.BangumiBriefScore;
+import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 
 import java.util.List;
 

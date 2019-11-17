@@ -10,13 +10,13 @@ public class UserResponse {
 
     @SerializedName("data")
     @Expose
-    private User user;
+    private UserData userData;
 
     public String getMessage() {
         return message;
     }
 
-    public User getUser() {
-        return this.user;
+    public UserData getUserData() {
+        return userData;
     }
 }

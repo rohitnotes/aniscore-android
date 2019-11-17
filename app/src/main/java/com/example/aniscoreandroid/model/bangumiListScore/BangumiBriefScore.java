@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid.model;
+package com.example.aniscoreandroid.model.bangumiListScore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

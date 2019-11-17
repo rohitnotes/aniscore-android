@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.utils;
 
 import android.text.Editable;
 import android.text.TextWatcher;
