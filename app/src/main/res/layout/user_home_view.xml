@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/scored_bangumi"
+        android:text="@string/scored_bangumi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/titleColor"/>
+
+    <TextView
+        android:id="@+id/view_more_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/arrow_1"
+        android:text="@string/viewMore"/>
+
+    <ImageView
+        android:id="@+id/arrow_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/arrow_icon"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:tint="@color/viewMore_color"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/scored_bangumi_list"
+        android:layout_below="@id/scored_bangumi"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/no_bangumi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_score_bangumi"
+        android:layout_marginTop="10dp"
+        android:textSize="8pt"
+        android:layout_below="@id/arrow_1"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/following"
+        android:text="@string/following"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/scored_bangumi_list"
+        android:textColor="@color/titleColor"/>
+
+    <TextView
+        android:id="@+id/view_more_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/arrow_2"
+        android:layout_below="@id/scored_bangumi_list"
+        android:text="@string/viewMore"/>
+
+    <ImageView
+        android:id="@+id/arrow_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scored_bangumi_list"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/arrow_icon"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:tint="@color/viewMore_color"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/following_list"
+        android:layout_below="@id/following"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/no_following"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/no_following"
+        android:textSize="8pt"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_below="@id/arrow_2"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/follower"
+        android:text="@string/follower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/following_list"
+        android:textColor="@color/titleColor"/>
+
+    <TextView
+        android:id="@+id/view_more_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/arrow_3"
+        android:layout_below="@id/following_list"
+        android:text="@string/viewMore"/>
+
+    <ImageView
+        android:id="@+id/arrow_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/following_list"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/arrow_icon"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:tint="@color/viewMore_color"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/follower_list"
+        android:layout_below="@id/follower"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/no_follower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_follower"
+        android:layout_below="@id/arrow_3"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="8pt"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+</RelativeLayout>

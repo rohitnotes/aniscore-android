@@ -27,6 +27,7 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/arrow"
             android:text="@string/viewMore"
+            android:padding="2dp"
             android:textColor="@color/viewMore_color"/>
 
         <ImageView

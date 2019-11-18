@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-     * click the user avatar if there is one to direct to user page
+     * click the current user avatar if there is one to direct to current user page
      */
     private void toUser() {
         Intent intent = new Intent(this, UserActivity.class);

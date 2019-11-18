@@ -27,7 +27,7 @@ public class BangumiSeasonAdapter extends RecyclerView.Adapter<BangumiSeasonAdap
     private List<List<BangumiBrief>> seasons;
     private Context context;
 
-    public class BangumiSeasonViewHolder extends  RecyclerView.ViewHolder{
+    public class BangumiSeasonViewHolder extends RecyclerView.ViewHolder{
         RecyclerView recyclerView;
         TextView title;
         TextView viewMore;

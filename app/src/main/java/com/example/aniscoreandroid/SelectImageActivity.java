@@ -47,6 +47,7 @@ public class SelectImageActivity extends AppCompatActivity {
     private String mode;                                // "avatar" or "background"
     private String userId;
     private Uri imageUri;
+    private int screenWidth;
     private final String SUCCESS_UPLOAD_AVATAR = "Successfully upload the avatar";
     private final String SUCCESS_UPLOAD_BACKGROUND = "Successfully upload the background";
 
@@ -58,23 +59,32 @@ public class SelectImageActivity extends AppCompatActivity {
         MaterialButton selectImage = findViewById(R.id.selectImageButton);
         Intent intent = getIntent();
         userId = intent.getStringExtra("USER_ID");
-        mode = intent.getStringExtra("MODE");
+        mode = intent.getStringExtra("MODE");               // used to determine changing background or avatar
         String currentImage = intent.getStringExtra("CURRENT_IMAGE");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         ImageView preview = findViewById(R.id.preview);
         // get screen width
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
+        screenWidth = displayMetrics.widthPixels;
         // set current avatar/background into preview
-        Glide.with(this).load(baseUrl + currentImage).asBitmap().centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(width, width)
-                .into(preview);
+        if (currentImage != null && currentImage.length() > 0) {
+            Glide.with(this).load(baseUrl + currentImage).asBitmap().centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(screenWidth, screenWidth)
+                    .into(preview);
+        } else {
+            if (mode.equals("background")) {
+                preview.setImageResource(R.drawable.default_background);
+                preview.setScaleType(ImageView.ScaleType.FIT_XY);
+                preview.setAdjustViewBounds(true);
+            }
+        }
+        // click select image button to select image
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, SELECT_IMAGE);
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, SELECT_IMAGE);
             }
         });
         findViewById(R.id.uploadImageButton).setOnClickListener(new View.OnClickListener() {
@@ -92,7 +102,7 @@ public class SelectImageActivity extends AppCompatActivity {
         if (requestCode == SELECT_IMAGE) {
             if (resultCode == RESULT_OK) {
                 imageUri = data.getData();
-                Glide.with(this).load(imageUri).into(image);
+                Glide.with(this).load(imageUri).centerCrop().override(screenWidth, screenWidth).into(image);
             }
         }
     }

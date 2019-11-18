@@ -1,5 +1,6 @@
 package com.example.aniscoreandroid.model.bangumiListScore;
 
+import com.example.aniscoreandroid.model.user.ScoredBangumi;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -34,6 +35,16 @@ public class BangumiBriefScore {
     @SerializedName("totalScore")
     @Expose
     private double totalScore;
+
+    public BangumiBriefScore(ScoredBangumi scoredBangumi) {
+        this.animeId = scoredBangumi.getAnimeId();
+        this.title = scoredBangumi.getTitle();
+        this.imageUrl = scoredBangumi.getImageUrl();
+        this.score = scoredBangumi.getScore();
+        this.synopsis = scoredBangumi.getSynopsis();
+        this.totalScore = 0.0;
+        this.userNumber = 0;
+    }
 
     public String getAnimeId() {
         return this.animeId;

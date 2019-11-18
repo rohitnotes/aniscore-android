@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_background">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_toStartOf="@id/follow"
+        android:textSize="7pt"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:id="@+id/follow"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/button_color"
+        android:textColor="@color/app_background"
+        android:text="@string/unfollow"
+        android:textSize="5pt"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:width="80dp"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="center"
+        android:layout_marginStart="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/avatar"
+        android:background="@color/divider"/>
+
+</RelativeLayout>

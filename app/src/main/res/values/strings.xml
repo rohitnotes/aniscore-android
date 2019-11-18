@@ -13,4 +13,12 @@
     <string name="notify_login">Login to see your account</string>
     <string name="select_image">Select Image</string>
     <string name="upload">Upload</string>
+    <string name="scored_bangumi">Bangumi</string>
+    <string name="following">Followings</string>
+    <string name="follower">Followers</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">follow</string>
+    <string name="no_score_bangumi">No scored bangumi</string>
+    <string name="no_following">No following</string>
+    <string name="no_follower">No follower</string>
 </resources>

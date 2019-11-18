@@ -22,7 +22,7 @@ public class ScoredBangumi {
 
     @SerializedName("score")
     @Expose
-    private String score;
+    private double score;
 
     public String getAnimeId() {
         return this.animeId;
@@ -40,7 +40,7 @@ public class ScoredBangumi {
         return this.synopsis;
     }
 
-    public String getScore() {
+    public double getScore() {
         return this.score;
     }
 }

@@ -39,11 +39,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toLeftOf="@id/arrow_1"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@id/background_image"
-            android:text="@string/full_rank"/>
+            android:text="@string/full_rank"
+            android:padding="2dp"/>
 
         <ImageView
             android:id="@+id/arrow_1"
@@ -76,7 +76,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#dfdfdf"
+            android:background="@color/divider"
             app:layout_constraintBottom_toTopOf="@id/current_season_title"
             app:layout_constraintTop_toBottomOf="@id/rank_list"/>
 
@@ -96,10 +96,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintRight_toLeftOf="@id/arrow_2"
             app:layout_constraintTop_toBottomOf="@id/divider_1"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="2dp"
-            android:text="@string/season_list" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/season_list"
+            android:padding="2dp"/>
 
         <ImageView
             android:id="@+id/arrow_2"
@@ -132,7 +132,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#dfdfdf"
+            android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/current_bangumi_list"/>
 
         <TextView
@@ -151,10 +151,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintRight_toLeftOf="@id/arrow_3"
             app:layout_constraintTop_toBottomOf="@id/divider_2"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="2dp"
-            android:text="@string/season_list"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/season_list"
+            android:padding="2dp"/>
 
         <ImageView
             android:id="@+id/arrow_3"
@@ -187,7 +187,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#dfdfdf"
+            android:background="@color/divider"
             app:layout_constraintTop_toBottomOf="@id/previous_bangumi_list"/>
 
         <TextView
@@ -206,10 +206,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintRight_toLeftOf="@id/arrow_4"
             app:layout_constraintTop_toBottomOf="@id/divider_3"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="2dp"
-            android:text="@string/season_list"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/season_list"
+            android:padding="2dp"/>
 
         <ImageView
             android:id="@+id/arrow_4"

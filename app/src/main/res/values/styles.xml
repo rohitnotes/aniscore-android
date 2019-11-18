@@ -12,5 +12,10 @@
         <item name="android:fontFamily">PT-Sans-Caption</item>
     </style>
 
+    <style name="UserActivityNaviBarTextStyle" parent="AppTheme">
+        <item name="android:textSize">7pt</item>
+    </style>
+
+
 
 </resources>

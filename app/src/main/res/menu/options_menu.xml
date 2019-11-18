@@ -7,7 +7,7 @@
         app:showAsAction="always"/>
 
     <item android:id="@+id/login"
-        android:title="Log in"
+        android:title="@string/login"
         app:showAsAction="ifRoom"
         android:clickable="true"
         android:focusable="true"/>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -70,6 +71,10 @@ public class User extends Fragment {
                     startActivity(intent);
                 }
             });
+        } else {                // the user has not selected an avatar
+            Glide.with(context).load(R.drawable.default_avatar).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                .override(200, 200).into(avatar);
         }
     }
 }

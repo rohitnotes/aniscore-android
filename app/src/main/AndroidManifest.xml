@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserActivity"
+            android:theme="@style/UserActivityNaviBarTextStyle"
             android:parentActivityName=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>

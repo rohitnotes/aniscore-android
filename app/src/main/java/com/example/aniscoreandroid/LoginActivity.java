@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aniscoreandroid.model.user.AuthResponse;
+import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.utils.TextChangeListener;
 import com.google.android.material.button.MaterialButton;
