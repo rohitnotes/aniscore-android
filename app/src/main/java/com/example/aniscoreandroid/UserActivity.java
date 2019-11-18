@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.example.aniscoreandroid.model.user.ScoredBangumi;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
 import com.example.aniscoreandroid.userView.Follow;
@@ -29,7 +28,9 @@ import com.example.aniscoreandroid.userView.ScoredBangumiView;
 import com.example.aniscoreandroid.userView.UserHome;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,12 +41,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserActivity extends AppCompatActivity {
-    private String userId;
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
             .addConverterFactory(GsonConverterFactory.create()).build();
     private final String baseUrl = "http://10.0.2.2:4000/";
     private SharedPreferences preference;
     private static BottomNavigationView navigationView;
+    private String userId;                              // the userId of the user current user visited
     private static User user;                           // the user page current user visited
     private static User currentUser;                    // current user
 
@@ -99,6 +100,7 @@ public class UserActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getMessage().equals("Succesfully find the user")) {
                         currentUser = response.body().getUserData().getUser();
+                        setButton();
                     }
                 }
             }
@@ -268,5 +270,80 @@ public class UserActivity extends AppCompatActivity {
                     }
                 });
         }
+    }
+
+    /*
+     * set the button
+     */
+    private void setButton() {
+        final MaterialButton button = findViewById(R.id.follow_status);
+        if (currentUser.getFollowing().contains(userId)) {
+            button.setText(("Following"));
+        } else {
+            button.setText(("Follow"));
+        }
+        if(currentUser.getUserId().equals(userId)){
+            button.setVisibility(View.GONE);
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String currentStatus = button.getText().toString();
+                    updateStatus(button);
+                    if (currentStatus.equals("Following")) {
+                        button.setText(("Follow"));
+                    } else {
+                        button.setText(("Following"));
+                    }
+                }
+            });
+        }
+    }
+
+
+    /*
+     * follow or unfollow the user with userId based on the button
+     */
+    private void updateStatus(final MaterialButton button) {
+        // no user has logged in
+        if (preference == null) {
+            return;
+        }
+        // judge whether there is user logged in or the two userIds are both current user id
+        if (currentUser == null || currentUser.getUserId().equals(userId)) {
+            return;
+        }
+        final String currentUserId = currentUser.getUserId();
+        ServerCall service = retrofit.create(ServerCall.class);
+        Call<UserResponse> updateStatusCall;
+        HashMap<String, String> body = new HashMap<>();
+        final String currentStatus = button.getText().toString();
+        // determine current status
+        if (currentStatus.equals("Following")) {               // unfollow the user
+            body.put("unfollow_id", userId);
+            updateStatusCall = service.unFollowUserById(currentUserId, body);
+        } else {
+            body.put("following_id", userId);
+            updateStatusCall = service.followUserById(currentUserId, body);
+        }
+        // follow/unfollow user of userId
+        updateStatusCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    // update current user in login activity
+                    if (currentStatus.equals("Unfollow")) {
+                        currentUser.unFollow(userId);
+                    } else {
+                        currentUser.follow(userId);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                System.out.println(t.toString());
+            }
+        });
     }
 }

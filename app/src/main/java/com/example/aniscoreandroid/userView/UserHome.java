@@ -117,7 +117,7 @@ public class UserHome extends Fragment {
         List<BangumiBriefScore> bangumiBriefScoreList = new ArrayList<>();
         int limit = Math.min(scoredBangumis.length, 3);
         if (limit == 0) {
-            scoredBangumi.setVisibility(View.GONE);
+            scoredBangumi.setVisibility(View.INVISIBLE);
             view.findViewById(R.id.no_bangumi).setVisibility(View.VISIBLE);
             return;
         }
@@ -137,7 +137,7 @@ public class UserHome extends Fragment {
         followingView = view.findViewById(R.id.following_list);
         followingIds = user.getFollowing();
         if (followingIds.size() == 0) {
-            followingView.setVisibility(View.GONE);
+            followingView.setVisibility(View.INVISIBLE);
             view.findViewById(R.id.no_following).setVisibility(View.VISIBLE);
             return;
         }
@@ -156,7 +156,7 @@ public class UserHome extends Fragment {
         followerView.setAdapter(followerAdapter);
         followerIds = user.getFollower();
         if (followerIds.size() == 0) {
-            followerView.setVisibility(View.GONE);
+            followerView.setVisibility(View.INVISIBLE);
             view.findViewById(R.id.no_follower).setVisibility(View.VISIBLE);
             return;
         }

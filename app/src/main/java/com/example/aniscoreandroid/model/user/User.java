@@ -82,4 +82,18 @@ public class User {
     public void follow(String userId) {
         following.add(userId);
     }
+
+    /*
+     * remove the userId from followers
+     */
+    public void removeFollower(String userId) {
+        follower.remove(userId);
+    }
+
+    /*
+     * add userId to followers
+     */
+    public void addFollower(String userId) {
+        follower.add(userId);
+    }
 }

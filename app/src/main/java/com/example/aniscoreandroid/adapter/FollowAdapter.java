@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,13 +163,9 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
      */
     private void updateStatus(final MaterialButton button, final String userId) {
         // no user has logged in
-        final String currentUserId;
         if (preference == null) {
-            // disable follow and unfollow
-            button.setVisibility(View.GONE);
             return;
         }
-        currentUserId = preference.getString("userId", null);
         // judge whether there is user logged in or the two userIds are both current user id
         if (currentUserId == null || currentUserId.equals(userId)) {
             return;
