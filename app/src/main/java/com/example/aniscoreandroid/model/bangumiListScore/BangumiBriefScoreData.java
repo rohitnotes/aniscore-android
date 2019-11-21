@@ -1,15 +1,14 @@
-package com.example.aniscoreandroid.model;
+package com.example.aniscoreandroid.model.bangumiListScore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BangumiData {
+public class BangumiBriefScoreData {
     @SerializedName("bangumi")
     @Expose
-    Bangumi bangumi;
+    BangumiBriefScore bangumi;
 
-
-    public Bangumi getBangumi() {
+    public BangumiBriefScore getBangumi() {
         return this.bangumi;
     }
 }

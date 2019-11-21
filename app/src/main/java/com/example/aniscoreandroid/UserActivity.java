@@ -82,7 +82,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     /*
-     * get current user by stored userId
+     * get current user
      */
     private void retrieveCurrentUser() {
         if (preference == null) {
@@ -230,11 +230,14 @@ public class UserActivity extends AppCompatActivity {
      */
     private void setBackground(ImageView background) {
         String backgroundPath = user.getBackground();
+        // avoid caching in order to update background
         if (backgroundPath != null && backgroundPath.length() > 0) {
-            // avoid caching in order to update background
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             Glide.with(this).load(baseUrl + backgroundPath).centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(background);
+        } else {
+            Glide.with(this).load(R.drawable.default_background).centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(background);
         }
     }

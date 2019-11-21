@@ -1,6 +1,7 @@
 package com.example.aniscoreandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 
@@ -56,7 +58,7 @@ public class BangumiRankAdapter extends RecyclerView.Adapter<BangumiRankAdapter.
 
     @Override
     public void onBindViewHolder(BangumiRankViewHolder holder, int position) {
-        BangumiBriefScore currentBangumi = rankList.get(position);
+        final BangumiBriefScore currentBangumi = rankList.get(position);
         Glide.with(context).load(currentBangumi.getImageUrl()).into(holder.image);
         holder.title.setText(currentBangumi.getTitle());
         String synopsis = currentBangumi.getSynopsis();
@@ -69,6 +71,15 @@ public class BangumiRankAdapter extends RecyclerView.Adapter<BangumiRankAdapter.
         holder.score.setText((currentBangumi.getScore() + ""));
         holder.totalScore.setText(("Total Score  " + currentBangumi.getTotalScore() + ""));
         holder.userNumber.setText((currentBangumi.getUserNumber() + " scored"));
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("BANGUMI_ID", currentBangumi.getAnimeId());
+                intent.putExtra("SOURCE", "MAIN");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

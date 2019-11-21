@@ -57,4 +57,19 @@ public class SeasonBangumiActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        return getPreviousActivity();
+    }
+
+    /*
+     * direct back to the main activity without reloading
+     */
+    private Intent getPreviousActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        return intent;
+    }
 }

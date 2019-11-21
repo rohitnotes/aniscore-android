@@ -36,6 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.BANGUMI_DETAIL" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UserActivity"
             android:theme="@style/UserActivityNaviBarTextStyle"
             android:parentActivityName=".MainActivity"

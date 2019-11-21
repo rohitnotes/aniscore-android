@@ -1,6 +1,8 @@
 package com.example.aniscoreandroid.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -13,7 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aniscoreandroid.DetailActivity;
+import com.example.aniscoreandroid.MainActivity;
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.SeasonBangumiActivity;
+import com.example.aniscoreandroid.UserActivity;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 
 import java.util.List;
@@ -50,7 +56,7 @@ public class BangumiBriefScoreAdapter extends RecyclerView.Adapter<BangumiBriefS
 
     @Override
     public void onBindViewHolder(BangumiBriefScoreViewHolder holder, int position) {
-        BangumiBriefScore currentBangumi = bangumiList.get(position);
+        final BangumiBriefScore currentBangumi = bangumiList.get(position);
         Glide.with(context).load(currentBangumi.getImageUrl()).into(holder.image);
         String title = currentBangumi.getTitle();
         if(title.length() > 25) {
@@ -60,6 +66,19 @@ public class BangumiBriefScoreAdapter extends RecyclerView.Adapter<BangumiBriefS
         }
         holder.image.setColorFilter(Color.rgb(150, 150, 150), PorterDuff.Mode.MULTIPLY);
         holder.score.setText((currentBangumi.getScore() + ""));
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                if (context.getClass().equals(MainActivity.class)) {
+                    intent.putExtra("SOURCE", "MAIN");
+                } else if (context.getClass().equals(UserActivity.class)) {
+                    intent.putExtra("SOURCE", "USER");
+                }
+                intent.putExtra("BANGUMI_ID", currentBangumi.getAnimeId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

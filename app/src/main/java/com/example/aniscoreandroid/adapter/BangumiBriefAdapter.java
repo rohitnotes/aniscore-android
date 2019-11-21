@@ -1,6 +1,7 @@
 package com.example.aniscoreandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aniscoreandroid.DetailActivity;
+import com.example.aniscoreandroid.MainActivity;
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.SeasonBangumiActivity;
 import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
 
 import java.util.List;
@@ -46,7 +50,7 @@ public class BangumiBriefAdapter extends RecyclerView.Adapter<BangumiBriefAdapte
 
     @Override
     public void onBindViewHolder(BangumiBriefViewHolder holder, int position) {
-        BangumiBrief currentBangumi = bangumiList.get(position);
+        final BangumiBrief currentBangumi = bangumiList.get(position);
         Glide.with(context).load(currentBangumi.getImageUrl()).into(holder.image);
         String title = currentBangumi.getTitle();
         if(title.length() > 25) {
@@ -54,6 +58,19 @@ public class BangumiBriefAdapter extends RecyclerView.Adapter<BangumiBriefAdapte
         } else {
             holder.title.setText(title);
         }
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                if (context.getClass().equals(MainActivity.class)) {
+                    intent.putExtra("SOURCE", "MAIN");
+                } else if (context.getClass().equals(SeasonBangumiActivity.class)) {
+                    intent.putExtra("SOURCE", "SEASON");
+                }
+                intent.putExtra("BANGUMI_ID", currentBangumi.getAnimeId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

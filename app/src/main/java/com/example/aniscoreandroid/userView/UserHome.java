@@ -2,7 +2,6 @@ package com.example.aniscoreandroid.userView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,7 +42,6 @@ public class UserHome extends Fragment {
     private String FIND_USER_SUCCESS = "Succesfully find the user";
     private FollowAdapter followingAdapter;
     private FollowAdapter followerAdapter;
-    private MenuItem selectedItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
