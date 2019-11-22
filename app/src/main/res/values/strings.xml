@@ -23,4 +23,7 @@
     <string name="no_follower">No follower</string>
     <string name="info">Information</string>
     <string name="comment">Comments</string>
+    <string name="original_name">Original Name</string>
+    <string name="other_names">Similar Names</string>
+    <string name="synopsis">Synopsis</string>
 </resources>

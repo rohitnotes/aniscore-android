@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -92,6 +91,9 @@ public class DetailActivity extends AppCompatActivity{
         return intent;
     }
 
+    /*
+     * navigation bar listener
+     */
     private void selectFragment(MenuItem item) {
         Fragment fragment = null;
         switch(item.getItemId()) {
@@ -108,6 +110,9 @@ public class DetailActivity extends AppCompatActivity{
         }
     }
 
+    /*
+     * fetch bangumi detail from the server
+     */
     private void fetchBangumiDetail() {
         ServerCall service = retrofitApi.create(ServerCall.class);
         Call<BangumiDetail> bangumiDetailCall = service.getBangumiByIdApi(bangumiId);
@@ -133,6 +138,7 @@ public class DetailActivity extends AppCompatActivity{
     }
 
     private void setVideo() {
+        // the bangumi has no youtube url
         if (videoId == null) {
             return;
         }
@@ -150,7 +156,11 @@ public class DetailActivity extends AppCompatActivity{
        });
     }
 
+    /*
+     * get the youtube video id from the url given
+     */
     private void getVideoIdFromUrl(String videoUrl) {
+        // the bangumi has no youtube url
         if (videoUrl == null || videoUrl.length() == 0) {
             videoId = null;
         }

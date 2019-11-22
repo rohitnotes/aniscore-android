@@ -12,16 +12,22 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.adapter.BangumiTypeAdapter;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.model.bangumiApi.aired.Aired;
+import com.example.aniscoreandroid.model.bangumiApi.name.Name;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreData;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
+
+import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +80,30 @@ public class BangumiInfo extends Fragment {
         ((TextView)view.findViewById(R.id.status)).setText(detail.getStatus());
         // set episode
         ((TextView)view.findViewById(R.id.episode)).setText(("Episodes:" + detail.getEpisodes()+""));
+        RecyclerView typesView = view.findViewById(R.id.types);
+        // set japanese titles
+        ((TextView)view.findViewById(R.id.japanese_title)).setText(detail.getTitleJapanese());
+        // set similar titles
+        StringBuilder sbName= new StringBuilder();
+        String[] otherNames = detail.getTitleSynonyms();
+        for(int i = 0; i < otherNames.length; i++) {
+            sbName.append(otherNames[i]);
+            if (i != otherNames.length-1) {
+                sbName.append(", ");
+            }
+        }
+        String otherNameStr = sbName.toString();
+        if (otherNameStr.length() == 0) {
+            otherNameStr = "No names";
+        }
+        ((TextView)view.findViewById(R.id.other_names)).setText(otherNameStr);
+        // set types list
+        typesView.setAdapter(new BangumiTypeAdapter(detail.getGenres()));
+        LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
+        manager.setOrientation(RecyclerView.HORIZONTAL);
+        typesView.setLayoutManager(manager);
+        // set synopsis
+        ((TextView)view.findViewById(R.id.synopsis)).setText(detail.getSynopsis());
     }
 
     /*

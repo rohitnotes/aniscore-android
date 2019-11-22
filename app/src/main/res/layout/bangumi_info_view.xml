@@ -1,107 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detail_page"
     android:visibility="invisible"
     android:background="@color/app_background">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        android:layout_margin="15dp">
-
-        <ImageView
-            android:id="@+id/bangumi_image"
-            android:maxWidth="115dp"
-            android:minWidth="115dp"
-            android:minHeight="155dp"
-            android:maxHeight="155dp"
-            android:scaleType="fitXY"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/bangumi_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="2dp"
-        android:layout_toEndOf="@id/image"
-        android:alpha="0.8"
-        android:textColor="@color/titleColor"
-        android:textSize="7.5pt"
-        android:textStyle="bold"/>
-
     <RelativeLayout
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/image"
-        android:layout_alignBottom="@id/image">
+        android:background="@color/app_background">
 
-        <TextView
-            android:id="@+id/start_date"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="6pt"/>
+            app:cardCornerRadius="5dp"
+            android:layout_margin="15dp">
+
+            <ImageView
+                android:id="@+id/bangumi_image"
+                android:maxWidth="115dp"
+                android:minWidth="115dp"
+                android:minHeight="155dp"
+                android:maxHeight="155dp"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/bangumi_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/start_date"
-            android:layout_marginTop="10dp"
-            android:textSize="6pt" />
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@id/image"
+            android:alpha="0.8"
+            android:textColor="@color/titleColor"
+            android:textSize="7.5pt"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image"
+            android:layout_alignBottom="@id/image">
+
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="6pt"/>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/start_date"
+                android:layout_marginTop="10dp"
+                android:textSize="6pt" />
+
+            <TextView
+                android:id="@+id/episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/status"
+                android:layout_marginTop="10dp"
+                android:textSize="6pt" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/score_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/image"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp">
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/score_color"
+                android:textSize="12.5pt"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/stars"
+                style="?android:attr/ratingBarStyleSmall"
+                android:isIndicator="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/score"
+                android:stepSize="0.1"
+                android:progressTint="@color/score_color"/>
+
+            <TextView
+                android:id="@+id/user_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_below="@id/stars"
+                android:textColor="@color/viewMore_color"/>
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/episode"
+            android:id="@+id/japanese_title_tag"
+            android:text="@string/original_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/status"
-            android:layout_marginTop="10dp"
-            android:textSize="6pt" />
+            android:layout_below="@id/image"
+            android:layout_alignParentStart="true"
+            android:textSize="6pt"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/japanese_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_toEndOf="@id/japanese_title_tag"
+            android:textSize="6pt"
+            android:textColor="@color/titleColor"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/other_names_tag"
+            android:text="@string/other_names"
+            android:textSize="6pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_below="@id/japanese_title"/>
+
+        <TextView
+            android:id="@+id/other_names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="6pt"
+            android:textColor="@color/titleColor"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@id/japanese_title"
+            android:layout_toEndOf="@id/other_names_tag"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/types"
+            android:layout_below="@id/other_names"
+            android:layout_alignParentStart="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/synopsis_title"
+            android:text="@string/synopsis"
+            android:textSize="7.5pt"
+            android:textColor="@color/titleColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_below="@id/types"/>
+
+        <TextView
+            android:id="@+id/synopsis"
+            android:textSize="6.5pt"
+            android:layout_below="@id/synopsis_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/score_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/image"
-        android:layout_alignParentEnd="true">
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/score_color"
-            android:textSize="12.5pt"
-            android:textStyle="bold" />
-
-        <RatingBar
-            android:id="@+id/stars"
-            style="?android:attr/ratingBarStyleSmall"
-            android:isIndicator="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/score"
-            android:stepSize="0.1"
-            android:progressTint="@color/score_color"/>
-
-        <TextView
-            android:id="@+id/user_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_below="@id/stars"
-            android:textColor="@color/viewMore_color"/>
-    </RelativeLayout>
-
-</RelativeLayout>
+</ScrollView>
