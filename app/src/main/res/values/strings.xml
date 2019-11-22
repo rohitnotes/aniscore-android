@@ -21,4 +21,6 @@
     <string name="no_score_bangumi">No scored bangumi</string>
     <string name="no_following">No following</string>
     <string name="no_follower">No follower</string>
+    <string name="info">Information</string>
+    <string name="comment">Comments</string>
 </resources>

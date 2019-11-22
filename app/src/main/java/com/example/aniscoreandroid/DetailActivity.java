@@ -1,27 +1,26 @@
 package com.example.aniscoreandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
+import com.example.aniscoreandroid.detailView.BangumiInfo;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
-import com.example.aniscoreandroid.model.bangumiApi.aired.Aired;
-import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
-import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreData;
-import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,14 +28,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity{
     private String sourcePage;                          // the page direct to the detail page
     private String bangumiId;
-    private Context context;
+    private String videoUrl;
+    private String videoId;
     private static BangumiDetail bangumiDetail;
+    private BottomNavigationView navigationView;
+    private final String DEVELOPER_KEY = "AIzaSyCVBSekj5NusFaix11p_4k1P50XU4AjxSk";
     private Retrofit retrofitApi = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v3/")
-            .addConverterFactory(GsonConverterFactory.create()).build();
-    private Retrofit retrofitLocal = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
             .addConverterFactory(GsonConverterFactory.create()).build();
 
     @Override
@@ -50,9 +50,20 @@ public class DetailActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        context = this;
         fetchBangumiDetail();
-        fetchScore();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        navigationView = findViewById(R.id.navigation);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                selectFragment(menuItem);
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -81,6 +92,22 @@ public class DetailActivity extends AppCompatActivity {
         return intent;
     }
 
+    private void selectFragment(MenuItem item) {
+        Fragment fragment = null;
+        switch(item.getItemId()) {
+            case R.id.info:
+                fragment = new BangumiInfo();
+                break;
+            case R.id.comment:
+                break;
+        }
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, fragment);
+            ft.commit();
+        }
+    }
+
     private void fetchBangumiDetail() {
         ServerCall service = retrofitApi.create(ServerCall.class);
         Call<BangumiDetail> bangumiDetailCall = service.getBangumiByIdApi(bangumiId);
@@ -89,8 +116,12 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<BangumiDetail> call, Response<BangumiDetail> response) {
                 if (response.isSuccessful()) {
                     bangumiDetail = response.body();
-                    setBangumi(response.body());
                     findViewById(R.id.detail_page).setVisibility(View.VISIBLE);
+                    MenuItem defaultItem = navigationView.getMenu().getItem(0);
+                    selectFragment(defaultItem);
+                    videoUrl = response.body().getTrailerLink();
+                    getVideoIdFromUrl(videoUrl);
+                    setVideo();
                 }
             }
 
@@ -101,98 +132,38 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    /*
-     * set bangumi basic info
-     */
-    private void setBangumi(BangumiDetail detail) {
-        ImageView image = findViewById(R.id.bangumi_image);
-        // load image
-        Glide.with(this).load(detail.getImageUrl()).into(image);
-        // set title
-        ((TextView)findViewById(R.id.bangumi_title)).setText(detail.getTitle());
-        // set start date
-        StringBuilder sb = new StringBuilder();
-        Aired aired = detail.getAired();
-        String fromYear = aired.getProp().getFromYear();
-        String fromMonth = aired.getProp().getFromMonth();
-        String fromDay = aired.getProp().getFromDay();
-        if (fromYear.equals("")) {
-            sb.append("Not known");
-        } else {
-            sb.append("Start on ");
-            sb.append(fromYear);
-            sb.append(".");
-            sb.append(fromMonth);
-            sb.append(".");
-            sb.append(fromDay);
+    private void setVideo() {
+        if (videoId == null) {
+            return;
         }
-        // set start airing date
-        ((TextView)findViewById(R.id.start_date)).setText(sb.toString());
-        // set current status
-        ((TextView)findViewById(R.id.status)).setText(detail.getStatus());
-        // set episode
-        ((TextView)findViewById(R.id.episode)).setText(("Episodes:" + detail.getEpisodes()+""));
+        YouTubePlayerSupportFragment video = (YouTubePlayerSupportFragment)getSupportFragmentManager().findFragmentById(R.id.video);
+        video.initialize(DEVELOPER_KEY, new YouTubePlayer.OnInitializedListener() {
+           @Override
+           public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
+               youTubePlayer.loadVideo(videoId);
+           }
+
+           @Override
+           public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+           }
+       });
     }
 
-
-    /*
-     * get score of the bangumi from database
-     */
-    private void fetchScore() {
-        ServerCall service = retrofitLocal.create(ServerCall.class);
-        Call<BangumiBriefScoreResponse> briefScoreCall = service.getBangumiBriefById(bangumiId);
-        briefScoreCall.enqueue(new Callback<BangumiBriefScoreResponse>() {
-            @Override
-            public void onResponse(Call<BangumiBriefScoreResponse> call, Response<BangumiBriefScoreResponse> response) {
-                if (response.isSuccessful()) {
-                    BangumiBriefScoreData data = response.body().getData();
-                    BangumiBriefScore bangumiBriefScore = data.getBangumi();
-                    double score = bangumiBriefScore.getScore();
-                    int userNumber = bangumiBriefScore.getUserNumber();
-                    TextView scoreView = findViewById(R.id.score);
-                    RatingBar rateStar = findViewById(R.id.stars);
-                    TextView userNumberView = findViewById(R.id.user_number);
-                    scoreView.setGravity(Gravity.CENTER);
-                    if (score == 0.0 && userNumber == 0) {                              // no user rates the bangumi
-                        // set score to "No user rate"
-                        scoreView.setText(("No user rate"));
-                        scoreView.setTextColor(ContextCompat.getColor(context, R.color.viewMore_color));
-                        scoreView.setTextSize(16);
-                        RelativeLayout layout = findViewById(R.id.score_info);
-                        // set layout margin right
-                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)layout.getLayoutParams();
-                        params.rightMargin = 20;
-                        layout.setLayoutParams(params);
-                        // set rate star and user number invisible
-                        rateStar.setVisibility(View.INVISIBLE);
-                        userNumberView.setVisibility(View.INVISIBLE);
-                        scoreView.setGravity(Gravity.CENTER);
-                    } else {
-                        scoreView.setText((score + ""));
-                        // fill star indicator
-                        rateStar.setRating((float)(score/2));
-                        // center the score view relative to rating stars
-                        int rateStarWidth = rateStar.getWidth();
-                        scoreView.setMaxWidth(rateStarWidth);
-                        scoreView.setMinWidth(rateStarWidth);
-                        scoreView.setGravity(Gravity.CENTER);
-                        // center the user number relative to rating stars
-                        userNumberView.setText((userNumber + " users"));
-                        userNumberView.setMaxWidth(rateStarWidth);
-                        userNumberView.setMinWidth(rateStarWidth);
-                        userNumberView.setGravity(Gravity.CENTER);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BangumiBriefScoreResponse> call, Throwable t) {
-                System.out.println(t.toString());
-            }
-        });
+    private void getVideoIdFromUrl(String videoUrl) {
+        if (videoUrl == null || videoUrl.length() == 0) {
+            videoId = null;
+        }
+        String baseUrl = "https://www.youtube.com/embed/";
+        int start = baseUrl.length();
+        int end = videoUrl.indexOf("?");
+        if (end == -1) {
+            end = videoUrl.length();
+        }
+        videoId = videoUrl.substring(start, end);
     }
 
-    private static BangumiDetail getBangumiDetail() {
+    public static BangumiDetail getBangumiDetail() {
         return bangumiDetail;
     }
 }
