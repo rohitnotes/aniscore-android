@@ -151,7 +151,7 @@ public class DetailActivity extends AppCompatActivity{
 
            @Override
            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
+               
            }
        });
     }
@@ -163,6 +163,7 @@ public class DetailActivity extends AppCompatActivity{
         // the bangumi has no youtube url
         if (videoUrl == null || videoUrl.length() == 0) {
             videoId = null;
+            return;
         }
         String baseUrl = "https://www.youtube.com/embed/";
         int start = baseUrl.length();

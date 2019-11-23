@@ -1,2 +1,2 @@
-include ':app', ':login'
+include ':app'
 rootProject.name='aniscoreAndroid'

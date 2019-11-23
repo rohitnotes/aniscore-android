@@ -57,7 +57,7 @@ public class BangumiInfo extends Fragment {
         // load image
         Glide.with(getContext()).load(detail.getImageUrl()).into(image);
         // set title
-        ((TextView)view.findViewById(R.id.bangumi_title)).setText(detail.getTitle());
+        ((TextView) view.findViewById(R.id.bangumi_title)).setText(detail.getTitle());
         // set start date
         StringBuilder sb = new StringBuilder();
         Aired aired = detail.getAired();
@@ -75,20 +75,20 @@ public class BangumiInfo extends Fragment {
             sb.append(fromDay);
         }
         // set start airing date
-        ((TextView)view.findViewById(R.id.start_date)).setText(sb.toString());
+        ((TextView) view.findViewById(R.id.start_date)).setText(sb.toString());
         // set current status
-        ((TextView)view.findViewById(R.id.status)).setText(detail.getStatus());
+        ((TextView) view.findViewById(R.id.status)).setText(detail.getStatus());
         // set episode
-        ((TextView)view.findViewById(R.id.episode)).setText(("Episodes:" + detail.getEpisodes()+""));
+        ((TextView) view.findViewById(R.id.episode)).setText(("Episodes:" + detail.getEpisodes() + ""));
         RecyclerView typesView = view.findViewById(R.id.types);
         // set japanese titles
-        ((TextView)view.findViewById(R.id.japanese_title)).setText(detail.getTitleJapanese());
+        ((TextView) view.findViewById(R.id.japanese_title)).setText(detail.getTitleJapanese());
         // set similar titles
-        StringBuilder sbName= new StringBuilder();
+        StringBuilder sbName = new StringBuilder();
         String[] otherNames = detail.getTitleSynonyms();
-        for(int i = 0; i < otherNames.length; i++) {
+        for (int i = 0; i < otherNames.length; i++) {
             sbName.append(otherNames[i]);
-            if (i != otherNames.length-1) {
+            if (i != otherNames.length - 1) {
                 sbName.append(", ");
             }
         }
@@ -96,14 +96,18 @@ public class BangumiInfo extends Fragment {
         if (otherNameStr.length() == 0) {
             otherNameStr = "No names";
         }
-        ((TextView)view.findViewById(R.id.other_names)).setText(otherNameStr);
+        ((TextView) view.findViewById(R.id.other_names)).setText(otherNameStr);
         // set types list
         typesView.setAdapter(new BangumiTypeAdapter(detail.getGenres()));
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         manager.setOrientation(RecyclerView.HORIZONTAL);
         typesView.setLayoutManager(manager);
         // set synopsis
-        ((TextView)view.findViewById(R.id.synopsis)).setText(detail.getSynopsis());
+        if (detail.getSynopsis() == null || detail.getSynopsis().equals("")) {
+            ((TextView) view.findViewById(R.id.synopsis)).setText(("No synopsis yet"));
+        } else {
+            ((TextView)view.findViewById(R.id.synopsis)).setText(detail.getSynopsis());
+        }
     }
 
     /*
