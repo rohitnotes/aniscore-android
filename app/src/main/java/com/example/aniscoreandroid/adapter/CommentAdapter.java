@@ -130,37 +130,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         // set replies
         setReplies(holder, current);
         // set reply listener for whole layout
-        final InputMethodManager manager = (InputMethodManager)view.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
-        holder.commentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText commentBox= Comments.getCommentBox();
-                String hint = commentBox.getHint().toString();          // get hint of comment box
-                // set focus on comment box, letting keyboard appear in one click
-                commentBox.requestFocus();
-                if (hint.equals(defaultHint)) {
-                    String parentCommentId = current.getParentCommentId();
-                    if (parentCommentId.equals("none")) {           // the comment replied is the parent comment
-                        parentCommentId = current.getCommentId();
-                    }
-                    commentBox.setHint("Reply " + current.getUsername());
-                    Comments.setReplyClickListener(parentCommentId, current.getCommentId(), current.getUsername());
-                    // show keyboard
-                    if (manager != null) {
-                        manager.showSoftInput(commentBox, 0);
-                    }
-                } else {                         // cancel reply
-                    commentBox.setHint(defaultHint);
-                    // set focus on comment box, letting keyboard hide in one click
-                    commentBox.requestFocus();
-                    Comments.setReplyClickListener("none", "none", "none");
-                    // hide keyboard
-                    if (manager != null) {
-                        manager.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);
-                    }
-                }
-            }
-        });
+        setKeyboard(holder, current);
     }
 
     @Override
@@ -375,5 +345,42 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 }
             });
         }
+    }
+
+    /*
+     * set keyboard listener when clicking a comment
+     */
+    private void setKeyboard(CommentViewHolder holder, final Comment current) {
+        final InputMethodManager manager = (InputMethodManager)view.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
+        holder.commentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText commentBox= Comments.getCommentBox();
+                String hint = commentBox.getHint().toString();          // get hint of comment box
+                // set focus on comment box, letting keyboard appear in one click
+                commentBox.requestFocus();
+                if (hint.equals(defaultHint)) {
+                    String parentCommentId = current.getParentCommentId();
+                    if (parentCommentId.equals("none")) {           // the comment replied is the parent comment
+                        parentCommentId = current.getCommentId();
+                    }
+                    commentBox.setHint("Reply " + current.getUsername());
+                    Comments.setReplyClickListener(parentCommentId, current.getCommentId(), current.getUsername());
+                    // show keyboard
+                    if (manager != null) {
+                        manager.showSoftInput(commentBox, 0);
+                    }
+                } else {                         // cancel reply
+                    commentBox.setHint(defaultHint);
+                    // set focus on comment box, letting keyboard hide in one click
+                    commentBox.requestFocus();
+                    Comments.setReplyClickListener("none", "none", "none");
+                    // hide keyboard
+                    if (manager != null) {
+                        manager.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);
+                    }
+                }
+            }
+        });
     }
 }
