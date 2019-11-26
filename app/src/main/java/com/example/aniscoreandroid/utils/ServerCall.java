@@ -7,6 +7,7 @@ import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreRespon
 import com.example.aniscoreandroid.model.bangumi.BangumiResponse;
 import com.example.aniscoreandroid.model.comment.Comment;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
+import com.example.aniscoreandroid.model.singleComment.SingleCommentResponse;
 import com.example.aniscoreandroid.model.user.AuthResponse;
 import com.example.aniscoreandroid.model.user.UserResponse;
 
@@ -98,5 +99,5 @@ public interface ServerCall {
 
     // submit a comment
     @POST("/api/comment")
-    Call<CommentResponse> submitComment(@Body HashMap<String, String> comment);
+    Call<SingleCommentResponse> submitComment(@Body HashMap<String, String> comment);
 }

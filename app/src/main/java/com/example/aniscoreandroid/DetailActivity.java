@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.aniscoreandroid.detailView.BangumiInfo;
-import com.example.aniscoreandroid.detailView.CommentMain;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.utils.ServerCall;

@@ -44,7 +44,6 @@ public class CommentMain extends Fragment {
         comments = new LinkedList<>();
         adapter = new CommentAdapter(comments, true);
         recyclerView.setAdapter(adapter);
-        //getParentComments();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.addOnScrollListener(new EndlessListLoad(linearLayoutManager, 2) {
             @Override
@@ -55,6 +54,7 @@ public class CommentMain extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         // get first page of comments
         getParentComments(1);
+        Comments.setSubmitClickListener("none", "none", "none", comments, adapter);
         return view;
     }
 
@@ -74,8 +74,8 @@ public class CommentMain extends Fragment {
                     } else {
                         for (Comment comment : commentList) {
                             comments.add(comment);
-                            adapter.notifyDataSetChanged();
                         }
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }

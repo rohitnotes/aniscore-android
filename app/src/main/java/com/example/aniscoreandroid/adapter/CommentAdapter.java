@@ -29,6 +29,7 @@ import com.example.aniscoreandroid.utils.ServerCall;
 
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -129,8 +130,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         setDislike(holder, current);
         // set replies
         setReplies(holder, current);
-        // set reply listener for whole layout
-        setKeyboard(holder, current);
     }
 
     @Override
@@ -320,7 +319,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
      * this function is only requires backend call when parentComment is the parentComment
      * otherwise, the reply section is set to invisible
      */
-    private void setReplies(final CommentViewHolder holder, Comment parentComment) {
+    private void setReplies(final CommentViewHolder holder, final Comment parentComment) {
         if (hasReplies) {
             ServerCall service = retrofit.create(ServerCall.class);
             Call<CommentResponse> replyCall = service.getRepliesOfComment(parentComment.getCommentId());
@@ -329,13 +328,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
                     if (response.isSuccessful()) {
                         List<Comment> replyList = response.body().getData().getComments();
-                        if (replyList == null || replyList.size() == 0) {
+                        if (replyList == null) {
+                            replyList = new LinkedList<>();
+                        }
+                        if (replyList.size() == 0) {
                             holder.replies.setVisibility(View.GONE);
                         } else {
+                            if (replyList.size() > 3) {
+                                replyList = replyList.subList(0, 3);
+                            }
                             holder.replies.setVisibility(View.VISIBLE);
-                            holder.replies.setAdapter(new ReplyBriefAdapter(replyList));
-                            holder.replies.setLayoutManager(new LinearLayoutManager(context));
                         }
+                        ReplyBriefAdapter replyAdapter = new ReplyBriefAdapter(replyList);
+                        holder.replies.setAdapter(replyAdapter);
+                        holder.replies.setLayoutManager(new LinearLayoutManager(context));
+                        // set reply listener for whole layout
+                        setKeyboard(holder, parentComment, replyAdapter, replyList);
                     }
                 }
 
@@ -348,24 +356,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     /*
-     * set keyboard listener when clicking a comment
+     * set keyboard listener when clicking a comment to reply
+     * @param holder the view holder
+     * @param current the comment user clicks
+     * @param adapter the reply adapter of the reply recycler view of the comment
+     * @param replyList the first 3 replies under the comment
+     *
      */
-    private void setKeyboard(CommentViewHolder holder, final Comment current) {
+    private void setKeyboard(final CommentViewHolder holder, final Comment current, final ReplyBriefAdapter adapter, final List<Comment> replyList) {
         final InputMethodManager manager = (InputMethodManager)view.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
         holder.commentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.replies.setVisibility(View.VISIBLE);
                 EditText commentBox= Comments.getCommentBox();
-                String hint = commentBox.getHint().toString();          // get hint of comment box
+                String hint = commentBox.getHint().toString();                          // get hint of comment box
                 // set focus on comment box, letting keyboard appear in one click
                 commentBox.requestFocus();
                 if (hint.equals(defaultHint)) {
                     String parentCommentId = current.getParentCommentId();
-                    if (parentCommentId.equals("none")) {           // the comment replied is the parent comment
+                    if (parentCommentId.equals("none")) {                               // the comment replied is the parent comment
                         parentCommentId = current.getCommentId();
                     }
                     commentBox.setHint("Reply " + current.getUsername());
-                    Comments.setReplyClickListener(parentCommentId, current.getCommentId(), current.getUsername());
+                    // set submit reply listener
+                    Comments.setSubmitClickListener(parentCommentId, current.getCommentId(), current.getUsername(), replyList, adapter);
                     // show keyboard
                     if (manager != null) {
                         manager.showSoftInput(commentBox, 0);
@@ -374,7 +389,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     commentBox.setHint(defaultHint);
                     // set focus on comment box, letting keyboard hide in one click
                     commentBox.requestFocus();
-                    Comments.setReplyClickListener("none", "none", "none");
+                    // set submit listener back to submit parent comment
+                    Comments.setSubmitClickListener("none", "none", "none", replyList, adapter);
                     // hide keyboard
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);

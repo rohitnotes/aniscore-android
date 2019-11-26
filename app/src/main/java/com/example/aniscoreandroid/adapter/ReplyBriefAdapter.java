@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.comment.Comment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -32,11 +31,7 @@ public class ReplyBriefAdapter extends RecyclerView.Adapter<ReplyBriefAdapter.Re
     }
 
     public ReplyBriefAdapter(List<Comment> replyList) {
-        replies = new ArrayList<>();
-        int len = Math.min(replyList.size(), 3);
-        for (int i = 0; i < len; i++) {
-            replies.add(replyList.get(i));
-        }
+        replies = replyList;
     }
 
     @NonNull
