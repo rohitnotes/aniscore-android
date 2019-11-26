@@ -5,6 +5,8 @@ import com.example.aniscoreandroid.model.bangumiList.BangumiListResponse;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreResponse;
 import com.example.aniscoreandroid.model.bangumi.BangumiResponse;
+import com.example.aniscoreandroid.model.comment.Comment;
+import com.example.aniscoreandroid.model.comment.CommentResponse;
 import com.example.aniscoreandroid.model.user.AuthResponse;
 import com.example.aniscoreandroid.model.user.UserResponse;
 
@@ -78,4 +80,23 @@ public interface ServerCall {
     // get bangumi detail by anime id
     @GET("anime/{bangumiId}")
     Call<BangumiDetail> getBangumiByIdApi(@Path("bangumiId") String bangumiId);
+
+    // get all parent comments of an anime
+    @GET("/api/comment/parentcomment/{bangumiId}")
+    Call<CommentResponse> getParentCommentsByBangumiId(@Path("bangumiId") String bangumiId);
+
+    @GET("/api/comment/parentcomment/{bangumiId}/{page}")
+    Call<CommentResponse> getParentCommentsByBangumiIdWithPage(@Path("bangumiId") String bangumiId, @Path("page") int page);
+
+    // like or dislike a comment
+    @PUT("/api/comment/{commentId}")
+    Call<CommentResponse> updateStatusOfComment(@Path("commentId") String commentId, @Body HashMap<String, String> userInfo);
+
+    // get all replies of a parent comment
+    @GET("/api/comment/reply/{parentCommentId}")
+    Call<CommentResponse> getRepliesOfComment(@Path("parentCommentId") String parentCommentId);
+
+    // submit a comment
+    @POST("/api/comment")
+    Call<CommentResponse> submitComment(@Body HashMap<String, String> comment);
 }

@@ -48,9 +48,9 @@ public class UserHome extends Fragment {
         view = inflater.inflate(R.layout.user_home_view, container, false);
         user = UserActivity.getUserInfo();
         followings = new ArrayList<>();
-        followingAdapter = new FollowAdapter(followings, R.layout.home_follow_view);
+        followingAdapter = new FollowAdapter(followings, R.layout.home_follow_layout);
         followers = new ArrayList<>();
-        followerAdapter =  new FollowAdapter(followers, R.layout.home_follow_view);
+        followerAdapter =  new FollowAdapter(followers, R.layout.home_follow_layout);
         setScoreBangumi();
         setFollowing();
         setFollowers();

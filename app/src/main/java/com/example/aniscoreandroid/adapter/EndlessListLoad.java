@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.aniscoreandroid.R;
+
 public abstract class EndlessListLoad extends RecyclerView.OnScrollListener {
     private int visibleThreshold = 4;
     private int currentPage = 0;
@@ -15,6 +17,11 @@ public abstract class EndlessListLoad extends RecyclerView.OnScrollListener {
 
     public EndlessListLoad(RecyclerView.LayoutManager layoutManager) {
         mLayoutManager = layoutManager;
+    }
+
+    public EndlessListLoad(RecyclerView.LayoutManager layoutManager, int visibleThreshold) {
+        mLayoutManager = layoutManager;
+        this.visibleThreshold = visibleThreshold;
     }
 
     public EndlessListLoad(GridLayoutManager layoutManager) {

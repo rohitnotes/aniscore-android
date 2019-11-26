@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +71,9 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         context = parent.getContext();
         preference = context.getSharedPreferences("Current user", Context.MODE_PRIVATE);
-        currentUserId = preference.getString("userId", null);
+        if (preference != null) {
+            currentUserId = preference.getString("userId", null);
+        }
         currentUser = UserActivity.getCurrentUser();
         return new FollowViewHolder(view);
     }

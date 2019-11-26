@@ -40,9 +40,9 @@ public class Follow extends Fragment {
     private String mode;                // "following" or "follower"
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        View view = inflater.inflate(R.layout.follow_layout, container, false);
+        View view = inflater.inflate(R.layout.follow_view, container, false);
         follows = new ArrayList<>();
-        adapter = new FollowAdapter(follows, R.layout.detail_follow_view);
+        adapter = new FollowAdapter(follows, R.layout.detail_follow_layout);
         List<String> followList;
         RecyclerView follow_view = view.findViewById(R.id.follow_list);
         if (mode.equals("following")) {

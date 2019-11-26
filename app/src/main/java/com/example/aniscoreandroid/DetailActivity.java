@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.aniscoreandroid.detailView.BangumiInfo;
+import com.example.aniscoreandroid.detailView.CommentMain;
+import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -101,6 +103,10 @@ public class DetailActivity extends AppCompatActivity{
                 fragment = new BangumiInfo();
                 break;
             case R.id.comment:
+                fragment = new Comments();
+                Bundle args = new Bundle();
+                args.putString("bangumiId", bangumiId);
+                fragment.setArguments(args);
                 break;
         }
         if (fragment != null) {

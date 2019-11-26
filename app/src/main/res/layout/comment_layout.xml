@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/comment_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp"
+        android:minWidth="50dp"
+        android:maxWidth="50dp"
+        android:minHeight="50dp"
+        android:maxHeight="50dp"/>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_marginTop="20dp"
+        android:textSize="7pt"
+        android:textColor="@color/titleColor"
+        android:alpha="0.9"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_below="@id/username"
+        android:layout_marginTop="10dp"
+        android:textSize="5pt"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_below="@id/date"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/titleColor"
+        android:textSize="7pt"
+        android:alpha="0.9"/>
+
+    <ImageView
+        android:id="@+id/like"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_below="@id/content"
+        android:tint="@color/viewMore_color"
+        android:layout_marginTop="10dp"
+        android:alpha="0.8"/>
+
+    <TextView
+        android:id="@+id/like_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/content"
+        android:layout_toEndOf="@id/like"
+        android:layout_marginTop="8dp"
+        android:textSize="6pt"/>
+
+    <ImageView
+        android:id="@+id/dislike"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/like_number"
+        android:layout_below="@id/content"
+        android:layout_marginTop="10dp"
+        android:tint="@color/viewMore_color"/>
+
+    <TextView
+        android:id="@+id/dislike_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/content"
+        android:layout_toEndOf="@id/dislike"
+        android:layout_marginTop="10dp"
+        android:textSize="6pt"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/avatar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/divider"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        android:layout_below="@id/like">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/replies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/card"
+        android:layout_marginTop="25dp"
+        android:background="@color/divider"/>
+
+</RelativeLayout>
