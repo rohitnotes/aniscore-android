@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +45,6 @@ public class Comments extends Fragment {
     private static String currentUsername;
     private static String currentUserId;
     private static String avatar;
-    private static FragmentTransaction ft;                          // fragment transaction for holding fragment
     private static Bundle args;                                     // args holding the bangumiId
 
     @Override
@@ -70,17 +70,23 @@ public class Comments extends Fragment {
 
     private void setDefaultPage() {
         Fragment fragment = new CommentMain();
-        ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.setArguments(args);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.comment_section, fragment);
         ft.commit();
+    }
+
+    public static Bundle getArgs() {
+        return args;
     }
 
     public static EditText getCommentBox() {
         return commentBox;
     }
 
-    public static void setSubmitClickListener(final String parentCommentId, final String repliedCommentId, final String repliedUsername, final List<Comment> comments, final RecyclerView.Adapter adapter) {
+    public static void setSubmitClickListener(final String parentCommentId, final String repliedCommentId,
+                                              final String repliedUsername, final List<Comment> comments,
+                                              final RecyclerView.Adapter adapter) {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +104,8 @@ public class Comments extends Fragment {
      * @param comments the comment list the submit comment add to
      * @param adapter the adapter
      */
-    private static void submitComment(final String parentCommentId, String repliedCommentId, String repliedUsername, final List<Comment> comments, final RecyclerView.Adapter adapter) {
+    private static void submitComment(final String parentCommentId, final String repliedCommentId, String repliedUsername,
+                                      final List<Comment> comments, final RecyclerView.Adapter adapter) {
         if (currentUsername == null || currentUserId == null || commentListener.getQuery() == null || commentListener.getQuery().length() == 0) {
             return;
         }

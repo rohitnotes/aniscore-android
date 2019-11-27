@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.detailView.CommentDetail;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.comment.Comment;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
@@ -43,7 +49,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     private List<Comment> comments;
-    private boolean hasReplies;
+    private boolean isInMain;                       // judge whether the fragment is commentMain or commentDetail
     private Context context;
     private final String baseUrl = "http://10.0.2.2:4000/";
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
@@ -64,6 +70,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView dislikeNum;
         RecyclerView replies;           // only parent comment has the replies
         RelativeLayout commentLayout;
+        CardView cardView;
 
         public CommentViewHolder(View view) {
             super(view);
@@ -77,12 +84,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             dislikeNum = view.findViewById(R.id.dislike_number);
             replies = view.findViewById(R.id.replies);
             commentLayout = view.findViewById(R.id.comment_layout);
+            cardView = view.findViewById(R.id.card);
         }
     }
 
-    public CommentAdapter(List<Comment> commentList, boolean hasReply) {
+    public CommentAdapter(List<Comment> commentList, boolean inMain) {
         comments = commentList;
-        hasReplies = hasReply;
+        isInMain = inMain;
     }
 
     @NonNull
@@ -113,7 +121,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         StringBuilder sb = new StringBuilder();
         sb.append(current.getUsername());
         // set username
-        if (!(current.getRepliedUsername().equals("none"))) {
+        if (!isInMain && !(current.getRepliedUsername().equals("none"))
+                && !(current.getRepliedCommentId().equals(current.getParentCommentId()))) {
             sb.append("@");
             sb.append(current.getRepliedUsername());
         }
@@ -130,6 +139,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         setDislike(holder, current);
         // set replies
         setReplies(holder, current);
+        // set listener for in detail page
+        final RecyclerView.Adapter adapter = this;
+        // set keyboard listener
+        // if current fragment is commentMain, the keyboard listener is set after async call for replies finished, which is in setReplies
+        // if current fragment is commentDetail, then the adapter and list is the comment adapter and comment list
+        if (!isInMain) {
+            setKeyboard(holder, current, adapter, comments);
+        }
+        // currently user is in comment main page, reply section exists displaying first 3 replies
+        if (isInMain) {
+            // click reply section to comment detail fragment
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Fragment fragment = new CommentDetail();
+                    Bundle args = Comments.getArgs();
+                    args.putString("commentId", current.getCommentId());
+                    fragment.setArguments(args);
+                    FragmentTransaction ft = ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.comment_section, fragment);
+                    ft.commit();
+                }
+            });
+        }
     }
 
     @Override
@@ -143,7 +176,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private void setLike(final CommentViewHolder holder, final Comment current) {
         // set like icon
         final List<String> likes = current.getLike();
-        final List<String> dislikes = current.getDislike();
         if (currentUserId != null && likes != null && likes.contains(currentUserId)) {          // current user has liked the comment
             holder.likeIcon.setImageResource(R.drawable.like_filled);
         } else {
@@ -157,57 +189,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         final View.OnClickListener likeListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUserId != null) {                // has a user logged in
-                    // change icon and number
-                    if (dislikes != null && dislikes.contains(currentUserId)) {
-                        // switch from dislike to like
-                        // reduce dislike number by 1
-                        if (dislikes.size() > 1) {
-                            holder.dislikeNum.setText(((dislikes.size() - 1) + ""));
-                        } else {
-                            holder.dislikeNum.setText("");
-                        }
-                        // increase like number by 1
-                        if (likes == null) {
-                            holder.likeNum.setText("1");
-                        } else {
-                            holder.likeNum.setText(((likes.size() + 1) + ""));
-                        }
-                        // remove current user id from dislikes and add to likes
-                        dislikes.remove(currentUserId);
-                        likes.add(currentUserId);
-                        // unfill dislike icon
-                        holder.dislikeIcon.setImageResource(R.drawable.unlike_unfilled);
-                        // fill like icon
-                        holder.likeIcon.setImageResource(R.drawable.like_filled);
-                    } else if (likes != null && likes.contains(currentUserId)) {
-                        // cancel the like of a comment
-                        // reduce like number by 1
-                        if (likes.size() > 1) {
-                            holder.likeNum.setText(((likes.size() - 1) + ""));
-                        } else {
-                            holder.likeNum.setText("");
-                        }
-                        // remove current user id from likes
-                        likes.remove(currentUserId);
-                        // unfill the like icon
-                        holder.likeIcon.setImageResource(R.drawable.like_unfilled);
-                    } else {
-                        // like a comment
-                        // increase the like number by 1
-                        if (likes == null) {
-                            holder.likeNum.setText("1");
-                        } else {
-                            holder.likeNum.setText(((likes.size() + 1) + ""));
-                        }
-                        // add current user id to likes
-                        likes.add(currentUserId);
-                        // fill the like icon
-                        holder.likeIcon.setImageResource(R.drawable.like_filled);
-                    }
-                    // update status in backend
-                    updateStatusOfComment(current.getCommentId(), "like");
-                }
+                setAttitudeListener(holder, current, "like");
             }
         };
         // add click listener to like icon and like number
@@ -217,7 +199,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private void setDislike(final CommentViewHolder holder, final Comment current) {
         // set dislike icon
-        final List<String> likes = current.getLike();
         final List<String> dislikes = current.getDislike();
         if (currentUserId != null && dislikes != null && dislikes.contains(currentUserId)) {   // current user has disliked the comment
             holder.dislikeIcon.setImageResource(R.drawable.unlike_filled);
@@ -232,62 +213,100 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         View.OnClickListener dislikeListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUserId != null) {            // has a user logged in
-                    // change icon and number
-                    if (likes != null && likes.contains(currentUserId)) {
-                        // switch from like to dislike
-                        // reduce like number by one
-                        if (likes.size() > 1) {
-                            holder.likeNum.setText(((likes.size() - 1) + ""));
-                        } else{
-                            holder.likeNum.setText("");
-                        }
-                        // increase the dislike number by one
-                        if (dislikes == null) {
-                            holder.dislikeNum.setText("1");
-                        } else {
-                            holder.dislikeNum.setText(((dislikes.size() + 1) + ""));
-                        }
-                        // remove current user id from likes and add to dislikes
-                        likes.remove(currentUserId);
-                        dislikes.add(currentUserId);
-                        // unfill like icon
-                        holder.likeIcon.setImageResource(R.drawable.like_unfilled);
-                        // fill dislike icon
-                        holder.dislikeIcon.setImageResource(R.drawable.unlike_filled);
-                    } else if (dislikes != null && dislikes.contains(currentUserId)) {
-                        // cancel dislike of a comment
-                        // reduce dislike number by one
-                        if (dislikes.size() > 1) {
-                            holder.dislikeNum.setText(((dislikes.size() - 1) + ""));
-                        } else {
-                            holder.dislikeNum.setText("");
-                        }
-                        // remove current user id from dislikes
-                        dislikes.remove(currentUserId);
-                        // unfill the dislike icon
-                        holder.dislikeIcon.setImageResource(R.drawable.unlike_unfilled);
-                    } else {
-                        // dislike a comment
-                        // increase the dislike number by one
-                        if (dislikes == null) {
-                            holder.dislikeNum.setText("1");
-                        } else {
-                            holder.dislikeNum.setText(((dislikes.size() + 1) + ""));
-                        }
-                        // add current user id to dislikes
-                        dislikes.add(currentUserId);
-                        // fill the dislike icon
-                        holder.dislikeIcon.setImageResource(R.drawable.unlike_filled);
-                    }
-                    // update status in backend
-                    updateStatusOfComment(current.getCommentId(), "dislike");
-                }
+                setAttitudeListener(holder, current, "dislike");
             }
         };
         // add listener to dislike icon and dislike number
         holder.dislikeIcon.setOnClickListener(dislikeListener);
         holder.dislikeNum.setOnClickListener(dislikeListener);
+    }
+
+    /*
+     * set click listener for user clicking a like or dislike icon
+     * mode can only be like or dislike
+     */
+    private void setAttitudeListener(final CommentViewHolder holder, final Comment current, String mode) {
+        List<String> attitude;                      // attitude user has toward comment, like or dislike
+        List<String> oppAttitude;                   // opposite attitude toward user's attitude toward comment
+        TextView attitudeNum;
+        TextView oppAttitudeNum;
+        ImageView attitudeIcon;
+        ImageView oppAttitudeIcon;
+        int attitudeFilled;
+        int attitudeUnfilled;
+        int oppAttitudeUnfilled;
+        if (mode.equals("like")) {
+            attitude = current.getLike();
+            oppAttitude = current.getDislike();
+            attitudeNum = holder.likeNum;
+            oppAttitudeNum = holder.dislikeNum;
+            attitudeIcon = holder.likeIcon;
+            oppAttitudeIcon = holder.dislikeIcon;
+            attitudeFilled = R.drawable.like_filled;
+            attitudeUnfilled = R.drawable.like_unfilled;
+            oppAttitudeUnfilled = R.drawable.unlike_unfilled;
+        } else {
+            attitude = current.getDislike();
+            oppAttitude = current.getLike();
+            attitudeNum = holder.dislikeNum;
+            oppAttitudeNum = holder.likeNum;
+            attitudeIcon = holder.dislikeIcon;
+            oppAttitudeIcon = holder.likeIcon;
+            attitudeFilled = R.drawable.unlike_filled;
+            attitudeUnfilled = R.drawable.unlike_unfilled;
+            oppAttitudeUnfilled = R.drawable.like_unfilled;
+        }
+        if (currentUserId != null) {                // has a user logged in
+            // change icon and number
+            if (oppAttitude != null && oppAttitude.contains(currentUserId)) {
+                // switch from dislike to like
+                // reduce dislike number by 1
+                if (oppAttitude.size() > 1) {
+                    oppAttitudeNum.setText(((oppAttitude.size() - 1) + ""));
+                } else {
+                    oppAttitudeNum.setText("");
+                }
+                // increase the attitude user clicked number by 1
+                if (attitude == null) {
+                    attitudeNum.setText("1");
+                } else {
+                    attitudeNum.setText(((attitude.size() + 1) + ""));
+                }
+                // remove current user id from dislikes and add to likes
+                oppAttitude.remove(currentUserId);
+                attitude.add(currentUserId);
+                // unfill opp attitude icon
+                oppAttitudeIcon.setImageResource(oppAttitudeUnfilled);
+                // fill attitude icon
+                attitudeIcon.setImageResource(attitudeFilled);
+            } else if (attitude != null && attitude.contains(currentUserId)) {
+                // cancel the like of a comment
+                // reduce like number by 1
+                if (attitude.size() > 1) {
+                    attitudeNum.setText(((attitude.size() - 1) + ""));
+                } else {
+                    attitudeNum.setText("");
+                }
+                // remove current user id from attitude
+                attitude.remove(currentUserId);
+                // unfill the attitude icon
+                attitudeIcon.setImageResource(attitudeUnfilled);
+            } else {
+                // like a comment
+                // increase the like number by 1
+                if (attitude == null) {
+                    attitudeNum.setText("1");
+                } else {
+                    attitudeNum.setText(((attitude.size() + 1) + ""));
+                }
+                // add current user id to likes
+                attitude.add(currentUserId);
+                // fill the like icon
+                attitudeIcon.setImageResource(attitudeFilled);
+            }
+            // update status in backend
+            updateStatusOfComment(current.getCommentId(), mode);
+        }
     }
 
     /*
@@ -320,9 +339,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
      * otherwise, the reply section is set to invisible
      */
     private void setReplies(final CommentViewHolder holder, final Comment parentComment) {
-        if (hasReplies) {
+        if (isInMain) {
             ServerCall service = retrofit.create(ServerCall.class);
-            Call<CommentResponse> replyCall = service.getRepliesOfComment(parentComment.getCommentId());
+            Call<CommentResponse> replyCall = service.getRepliesOfCommentWithPage(parentComment.getCommentId(), 1);
             replyCall.enqueue(new Callback<CommentResponse>() {
                 @Override
                 public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
@@ -332,17 +351,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             replyList = new LinkedList<>();
                         }
                         if (replyList.size() == 0) {
-                            holder.replies.setVisibility(View.GONE);
+                            holder.cardView.setVisibility(View.GONE);
                         } else {
                             if (replyList.size() > 3) {
                                 replyList = replyList.subList(0, 3);
                             }
-                            holder.replies.setVisibility(View.VISIBLE);
+                            holder.cardView.setVisibility(View.VISIBLE);
                         }
                         ReplyBriefAdapter replyAdapter = new ReplyBriefAdapter(replyList);
                         holder.replies.setAdapter(replyAdapter);
                         holder.replies.setLayoutManager(new LinearLayoutManager(context));
-                        // set reply listener for whole layout
+                        // set reply listener for whole layout except reply section
                         setKeyboard(holder, parentComment, replyAdapter, replyList);
                     }
                 }
@@ -363,12 +382,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
      * @param replyList the first 3 replies under the comment
      *
      */
-    private void setKeyboard(final CommentViewHolder holder, final Comment current, final ReplyBriefAdapter adapter, final List<Comment> replyList) {
+    private void setKeyboard(final CommentViewHolder holder, final Comment current, final RecyclerView.Adapter adapter, final List<Comment> replyList) {
         final InputMethodManager manager = (InputMethodManager)view.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
         holder.commentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.replies.setVisibility(View.VISIBLE);
+                // reply section only exists in comment main
+                if (isInMain) {
+                    holder.cardView.setVisibility(View.VISIBLE);
+                }
                 EditText commentBox= Comments.getCommentBox();
                 String hint = commentBox.getHint().toString();                          // get hint of comment box
                 // set focus on comment box, letting keyboard appear in one click
@@ -387,8 +409,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
                 } else {                         // cancel reply
                     commentBox.setHint(defaultHint);
-                    // set focus on comment box, letting keyboard hide in one click
-                    commentBox.requestFocus();
                     // set submit listener back to submit parent comment
                     Comments.setSubmitClickListener("none", "none", "none", replyList, adapter);
                     // hide keyboard
