@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.UserActivity;
 import com.example.aniscoreandroid.detailView.CommentDetail;
@@ -211,6 +210,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.likeNum.setOnClickListener(likeListener);
     }
 
+    /*
+     * set dislike icon, dislike number and click listener
+     */
     private void setDislike(final CommentViewHolder holder, final Comment current) {
         // set dislike icon
         final List<String> dislikes = current.getDislike();
@@ -392,11 +394,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
      * set keyboard listener when clicking a comment to reply
      * @param holder the view holder
      * @param current the comment user clicks
-     * @param adapter the reply adapter of the reply recycler view of the comment
-     * @param replyList the first 3 replies under the comment
-     *
+     * @param adapter the adapter of the recycler view to notify data change,
+     * allowing new comment to show on screen immediately after user click submit
+     * @param commentList the comment list where the new comment is added to
      */
-    private void setKeyboard(final CommentViewHolder holder, final Comment current, final RecyclerView.Adapter adapter, final List<Comment> replyList) {
+    private void setKeyboard(final CommentViewHolder holder, final Comment current, final RecyclerView.Adapter adapter, final List<Comment> commentList) {
         final InputMethodManager manager = (InputMethodManager)view.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
         holder.commentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -416,15 +418,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
                     commentBox.setHint("Reply " + current.getUsername());
                     // set submit reply listener
-                    Comments.setSubmitClickListener(parentCommentId, current.getCommentId(), current.getUsername(), replyList, adapter);
+                    Comments.setSubmitClickListener(parentCommentId, current.getCommentId(), current.getUsername(), commentList, adapter);
                     // show keyboard
                     if (manager != null) {
                         manager.showSoftInput(commentBox, 0);
                     }
-                } else {                         // cancel reply
+                } else {                                                                // cancel reply
                     commentBox.setHint(defaultHint);
-                    // set submit listener back to submit parent comment
-                    Comments.setSubmitClickListener("none", "none", "none", replyList, adapter);
+                    // shift back to submit default listener
+                    if (isInMain) {
+                        // in comment main page, submit default listener is to add a new parent comment
+                        Comments.setSubmitClickListener("none", "none", "none", commentList, adapter);
+                    } else {
+                        // in comment detail page, submit default listener is to reply parent comment
+                        // get first comment in the comments, for comment detail page, comments is passed to the function as commentList
+                        Comment parentComment = commentList.get(0);
+                        Comments.setSubmitClickListener(parentComment.getCommentId(), parentComment.getCommentId(),
+                                parentComment.getUsername(), commentList, adapter);
+                    }
                     // hide keyboard
                     if (manager != null) {
                         manager.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);

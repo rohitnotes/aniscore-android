@@ -86,12 +86,15 @@ public class CommentDetail extends Fragment {
             @Override
             public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
                 // getComments() always has length 1
+                Comment parentComment =  response.body().getData().getComments().get(0);
                 if (replies.size() > 0) {
-                    replies.add(0, response.body().getData().getComments().get(0));
+                    replies.add(0, parentComment);
                 } else {
-                    replies.add(response.body().getData().getComments().get(0));
+                    replies.add(parentComment);
                 }
                 adapter.notifyDataSetChanged();
+                Comments.setSubmitClickListener(parentComment.getCommentId(), parentComment.getCommentId(),
+                        parentComment.getUsername(), replies, adapter);
             }
 
             @Override
