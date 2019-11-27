@@ -2,6 +2,7 @@ package com.example.aniscoreandroid.adapter;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,7 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.UserActivity;
 import com.example.aniscoreandroid.detailView.CommentDetail;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.comment.Comment;
@@ -116,6 +119,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
                 holder.avatar.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+        // click avatar to go to the user page
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), UserActivity.class);
+                intent.putExtra("USER_ID", current.getUserId());
+                intent.putExtra("bangumiId", Comments.getBangmiId());
+                intent.putExtra("SOURCE", "DETAIL");
+                view.getContext().startActivity(intent);
             }
         });
         StringBuilder sb = new StringBuilder();

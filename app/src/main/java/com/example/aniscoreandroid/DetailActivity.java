@@ -34,7 +34,7 @@ public class DetailActivity extends AppCompatActivity{
     private String videoUrl;
     private String videoId;
     private static BangumiDetail bangumiDetail;
-    private BottomNavigationView navigationView;
+    private static BottomNavigationView navigationView;
     private final String DEVELOPER_KEY = "AIzaSyCVBSekj5NusFaix11p_4k1P50XU4AjxSk";
     private Retrofit retrofitApi = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v3/")
             .addConverterFactory(GsonConverterFactory.create()).build();
@@ -90,6 +90,10 @@ public class DetailActivity extends AppCompatActivity{
             startActivity(intent);
         }
         return intent;
+    }
+
+    public static BottomNavigationView getNavigationView() {
+        return navigationView;
     }
 
     /*

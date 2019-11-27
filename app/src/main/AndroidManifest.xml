@@ -35,7 +35,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SEASONBANGUMI" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,18 +42,15 @@
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.BANGUMI_DETAIL" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".UserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
             android:theme="@style/UserActivityNaviBarTextStyle"
-            android:parentActivityName=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.USER" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -63,7 +59,6 @@
             android:parentActivityName=".UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SELECT_IMAGE" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

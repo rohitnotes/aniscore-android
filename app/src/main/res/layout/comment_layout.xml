@@ -50,8 +50,8 @@
 
     <ImageView
         android:id="@+id/like"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_toEndOf="@id/avatar"
         android:layout_below="@id/content"
         android:tint="@color/viewMore_color"
@@ -70,8 +70,8 @@
 
     <ImageView
         android:id="@+id/dislike"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@id/like_number"
         android:layout_below="@id/content"

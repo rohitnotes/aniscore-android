@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, UserActivity.class);
         String userId = preference.getString("userId", "");
         intent.putExtra("USER_ID", userId);
+        intent.putExtra("SOURCE", "MAIN");
         startActivity(intent);
     }
 

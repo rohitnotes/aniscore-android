@@ -3,12 +3,16 @@ package com.example.aniscoreandroid.detailView;
 import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -84,6 +88,10 @@ public class Comments extends Fragment {
         return commentBox;
     }
 
+    public static String getBangmiId() {
+        return bangumId;
+    }
+
     public static void setSubmitClickListener(final String parentCommentId, final String repliedCommentId,
                                               final String repliedUsername, final List<Comment> comments,
                                               final RecyclerView.Adapter adapter) {
@@ -106,7 +114,11 @@ public class Comments extends Fragment {
      */
     private static void submitComment(final String parentCommentId, final String repliedCommentId, String repliedUsername,
                                       final List<Comment> comments, final RecyclerView.Adapter adapter) {
+        // set pop up window
         if (currentUsername == null || currentUserId == null || commentListener.getQuery() == null || commentListener.getQuery().length() == 0) {
+            LayoutInflater inflater = (LayoutInflater)view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            PopupWindow window = new PopupWindow(inflater.inflate(R.layout.unlogin_window, null, false),800,400, true);
+            window.showAtLocation(view.findViewById(R.id.comment_section), Gravity.CENTER, 0, 0);
             return;
         }
         ServerCall service = retrofit.create(ServerCall.class);

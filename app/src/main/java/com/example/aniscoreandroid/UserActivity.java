@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -49,13 +50,21 @@ public class UserActivity extends AppCompatActivity {
     private String userId;                              // the userId of the user current user visited
     private static User user;                           // the user page current user visited
     private static User currentUser;                    // current user
+    private String bangumiId;                           // bangumi id, for condition switching from comment section of detail page to user page
+    private String sourcePage;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_user);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         Intent intent = getIntent();
         userId = intent.getStringExtra("USER_ID");
+        sourcePage = intent.getStringExtra("SOURCE");
+        bangumiId = intent.getStringExtra("bangumiId");
         preference = getApplicationContext().getSharedPreferences("Current user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.user_navigation);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,15 +90,41 @@ public class UserActivity extends AppCompatActivity {
         exec.shutdown();
     }
 
+
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        return getPreviousActivity();
+    }
+
+    /*
+     * direct back to the main activity without reloading
+     */
+    private Intent getPreviousActivity() {
+        Intent intent = null;
+        if (sourcePage.equals("MAIN")) {
+            intent = new Intent(this, MainActivity.class);
+        } else if (sourcePage.equals("DETAIL")){
+            intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("BANGUMI_ID", bangumiId);
+        }
+        if (intent != null) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+        startActivity(intent);
+        return intent;
+    }
+
     /*
      * get current user
      */
     private void retrieveCurrentUser() {
         if (preference == null) {
+            findViewById(R.id.follow_status).setVisibility(View.GONE);         // set status button to invisible
             return;
         }
         String currentUserId = preference.getString("userId", null);
         if (currentUserId == null) {
+            findViewById(R.id.follow_status).setVisibility(View.GONE);      // set status button to invisible
             return;
         }
         ServerCall service = retrofit.create(ServerCall.class);

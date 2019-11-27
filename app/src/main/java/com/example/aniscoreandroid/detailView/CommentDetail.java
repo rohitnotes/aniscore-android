@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.adapter.CommentAdapter;
 import com.example.aniscoreandroid.adapter.EndlessListLoad;
@@ -39,7 +41,7 @@ public class CommentDetail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         view = inflater.inflate(R.layout.comment_detail_view, container, false);
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         bangumId = args.getString("bangumiId");
         parentCommentId = args.getString("commentId");
         recyclerView = view.findViewById(R.id.reply_list);
@@ -52,6 +54,21 @@ public class CommentDetail extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 getReplies(page+1);              // page starts at 1, not 0
+            }
+        });
+        DetailActivity.getNavigationView().setVisibility(View.GONE);
+        // set click listener for the cross, click cross will direct user back to comment main
+        view.findViewById(R.id.cross).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailActivity.getNavigationView().setVisibility(View.VISIBLE);
+                //getActivity().overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
+                args.remove("commentId");
+                Fragment fragment = new CommentMain();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.comment_section, fragment);
+                ft.commit();
             }
         });
         getParentComment();
