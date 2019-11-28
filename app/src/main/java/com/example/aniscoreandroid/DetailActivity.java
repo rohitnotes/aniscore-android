@@ -3,24 +3,25 @@ package com.example.aniscoreandroid;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.aniscoreandroid.detailView.BangumiInfo;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.utils.ServerCall;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,10 +35,19 @@ public class DetailActivity extends AppCompatActivity{
     private String videoUrl;
     private String videoId;
     private static BangumiDetail bangumiDetail;
-    private static BottomNavigationView navigationView;
+    //private static BottomNavigationView navigationView;
+    private static TabLayout tabNavigation;
     private final String DEVELOPER_KEY = "AIzaSyCVBSekj5NusFaix11p_4k1P50XU4AjxSk";
     private Retrofit retrofitApi = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v3/")
             .addConverterFactory(GsonConverterFactory.create()).build();
+
+    private ViewPager viewPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter pagerAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,21 @@ public class DetailActivity extends AppCompatActivity{
         fetchBangumiDetail();
     }
 
+
+    //added code view pager
     @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        }
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,7 +88,7 @@ public class DetailActivity extends AppCompatActivity{
             }
         });
         return true;
-    }
+    }*/
 
     @Override
     public Intent getSupportParentActivityIntent() {
@@ -92,14 +116,15 @@ public class DetailActivity extends AppCompatActivity{
         return intent;
     }
 
-    public static BottomNavigationView getNavigationView() {
+    /*public static BottomNavigationView getNavigationView() {
         return navigationView;
+    }*/
+
+    public static TabLayout getNavigationView() {
+        return tabNavigation;
     }
 
-    /*
-     * navigation bar listener
-     */
-    private void selectFragment(MenuItem item) {
+    /*private void selectFragment(MenuItem item) {
         Fragment fragment = null;
         switch(item.getItemId()) {
             case R.id.info:
@@ -117,7 +142,7 @@ public class DetailActivity extends AppCompatActivity{
             ft.replace(R.id.container, fragment);
             ft.commit();
         }
-    }
+    }*/
 
     /*
      * fetch bangumi detail from the server
@@ -131,11 +156,20 @@ public class DetailActivity extends AppCompatActivity{
                 if (response.isSuccessful()) {
                     bangumiDetail = response.body();
                     findViewById(R.id.detail_page).setVisibility(View.VISIBLE);
-                    MenuItem defaultItem = navigationView.getMenu().getItem(0);
-                    selectFragment(defaultItem);
+                    //MenuItem defaultItem = navigationView.getMenu().getItem(0);
+                    //selectFragment(defaultItem);
                     videoUrl = response.body().getTrailerLink();
                     getVideoIdFromUrl(videoUrl);
                     setVideo();
+                    viewPager = findViewById(R.id.pager);
+                    String[] titles = {"Info", "Comments"};
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("bangumiId", bangumiId);
+                    Fragment[] fragments = {new BangumiInfo(), new Comments()};
+                    pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragments, map, titles, 2);
+                    viewPager.setAdapter(pagerAdapter);
+                    tabNavigation = findViewById(R.id.tab_layout);
+                    tabNavigation.setupWithViewPager(viewPager);
                 }
             }
 

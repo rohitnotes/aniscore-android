@@ -36,7 +36,7 @@ public class CommentDetail extends Fragment {
     private String bangumId;
     private String parentCommentId;
     private CommentAdapter adapter;
-    private  View view;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {

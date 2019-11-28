@@ -285,28 +285,28 @@ public class UserActivity extends AppCompatActivity {
         if (avatarPath != null && avatarPath.length() > 0) {
             // avoid caching in order to update avatar
             Glide.with(this).load(baseUrl + user.getAvatar()).asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
-                .into(new BitmapImageViewTarget(avatar) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        avatar.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                    .into(new BitmapImageViewTarget(avatar) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularBitmapDrawable =
+                                    RoundedBitmapDrawableFactory.create(getResources(), resource);
+                            circularBitmapDrawable.setCircular(true);
+                            avatar.setImageDrawable(circularBitmapDrawable);
+                        }
+                    });
         } else {
             Glide.with(this).load(R.drawable.default_avatar).asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
-                .into(new BitmapImageViewTarget(avatar) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        avatar.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                    .into(new BitmapImageViewTarget(avatar) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularBitmapDrawable =
+                                    RoundedBitmapDrawableFactory.create(getResources(), resource);
+                            circularBitmapDrawable.setCircular(true);
+                            avatar.setImageDrawable(circularBitmapDrawable);
+                        }
+                    });
         }
     }
 
