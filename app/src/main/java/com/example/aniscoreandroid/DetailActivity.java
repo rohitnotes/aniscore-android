@@ -29,9 +29,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DetailActivity extends AppCompatActivity{
+public class DetailActivity extends AppCompatActivity {
     private String sourcePage;                          // the page direct to the detail page
-    private String bangumiId;
+    private static String bangumiId;
     private String videoUrl;
     private String videoId;
     private static BangumiDetail bangumiDetail;
@@ -124,6 +124,14 @@ public class DetailActivity extends AppCompatActivity{
         return tabNavigation;
     }
 
+    public static BangumiDetail getBangumiDetail() {
+        return bangumiDetail;
+    }
+
+    public static String getBangumiId() {
+        return bangumiId;
+    }
+
     /*private void selectFragment(MenuItem item) {
         Fragment fragment = null;
         switch(item.getItemId()) {
@@ -185,18 +193,18 @@ public class DetailActivity extends AppCompatActivity{
         if (videoId == null) {
             return;
         }
-        YouTubePlayerSupportFragment video = (YouTubePlayerSupportFragment)getSupportFragmentManager().findFragmentById(R.id.video);
+        YouTubePlayerSupportFragment video = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.video);
         video.initialize(DEVELOPER_KEY, new YouTubePlayer.OnInitializedListener() {
-           @Override
-           public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
-               youTubePlayer.loadVideo(videoId);
-           }
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
+                youTubePlayer.loadVideo(videoId);
+            }
 
-           @Override
-           public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-               
-           }
-       });
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
     }
 
     /*
@@ -215,9 +223,5 @@ public class DetailActivity extends AppCompatActivity{
             end = videoUrl.length();
         }
         videoId = videoUrl.substring(start, end);
-    }
-
-    public static BangumiDetail getBangumiDetail() {
-        return bangumiDetail;
     }
 }

@@ -99,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/score"
                 android:stepSize="0.1"
-                android:progressTint="@color/score_color"/>
+                android:progressTint="@color/score_color"
+                android:secondaryProgressTint="@android:color/transparent"/>
 
             <TextView
                 android:id="@+id/user_number"

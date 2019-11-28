@@ -21,13 +21,10 @@ import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.adapter.BangumiTypeAdapter;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.model.bangumiApi.aired.Aired;
-import com.example.aniscoreandroid.model.bangumiApi.name.Name;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreData;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
-
-import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,9 +33,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BangumiInfo extends Fragment {
-    private View view;
+    private static View view;
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
             .addConverterFactory(GsonConverterFactory.create()).build();
+    private static double score = 0.0;
+    private static int userNumber = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -47,6 +46,28 @@ public class BangumiInfo extends Fragment {
         setBangumi(bangumiDetail);
         fetchScore(bangumiDetail.getAnimeId());
         return view;
+    }
+
+    public static double getScore() {
+        return score;
+    }
+
+    public static void setScore(double newScore) {
+        score = newScore;
+        TextView scoreView = view.findViewById(R.id.score);
+        RatingBar rateStar = view.findViewById(R.id.stars);
+        rateStar.setRating((float)(score/2.0));
+        scoreView.setText((score + ""));
+    }
+
+    public static int getUserNumber() {
+        return userNumber;
+    }
+
+    public static void setUserNumber(int newUserNumber) {
+        userNumber = newUserNumber;
+        TextView userNumberView = view.findViewById(R.id.user_number);
+        userNumberView.setText((userNumber + " users"));
     }
 
     /*
@@ -138,8 +159,8 @@ public class BangumiInfo extends Fragment {
      */
     private void setBangumiInfo(BangumiBriefScoreData data) {
         BangumiBriefScore bangumiBriefScore = data.getBangumi();
-        double score = bangumiBriefScore.getScore();
-        int userNumber = bangumiBriefScore.getUserNumber();
+        score = bangumiBriefScore.getScore();
+        userNumber = bangumiBriefScore.getUserNumber();
         TextView scoreView = view.findViewById(R.id.score);
         RatingBar rateStar = view.findViewById(R.id.stars);
         TextView userNumberView = view.findViewById(R.id.user_number);

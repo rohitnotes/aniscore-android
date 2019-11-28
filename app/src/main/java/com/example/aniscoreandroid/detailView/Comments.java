@@ -4,15 +4,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.comment.Comment;
 import com.example.aniscoreandroid.model.singleComment.SingleCommentResponse;
+import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.utils.TextChangeListener;
 
@@ -89,6 +89,10 @@ public class Comments extends Fragment {
         return bangumId;
     }
 
+    public static String getCurrentId() {
+        return currentUserId;
+    }
+
     public static void setSubmitClickListener(final String parentCommentId, final String repliedCommentId,
                                               final String repliedUsername, final List<Comment> comments,
                                               final RecyclerView.Adapter adapter) {
@@ -98,6 +102,11 @@ public class Comments extends Fragment {
                 submitComment(parentCommentId, repliedCommentId, repliedUsername, comments, adapter);
             }
         });
+    }
+
+    public static void showDialog() {
+        UnloginWindow window = new UnloginWindow();
+        window.show(((AppCompatActivity)view.getContext()).getSupportFragmentManager(), "UnloginDialog");
     }
 
     /*
@@ -113,9 +122,7 @@ public class Comments extends Fragment {
                                       final List<Comment> comments, final RecyclerView.Adapter adapter) {
         // set pop up window
         if (currentUsername == null || currentUserId == null || commentListener.getQuery() == null || commentListener.getQuery().length() == 0) {
-            LayoutInflater inflater = (LayoutInflater)view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            PopupWindow window = new PopupWindow(inflater.inflate(R.layout.unlogin_window, null, false),800,400, true);
-            window.showAtLocation(view.findViewById(R.id.comment_section), Gravity.CENTER, 0, 0);
+            showDialog();
             return;
         }
         ServerCall service = retrofit.create(ServerCall.class);

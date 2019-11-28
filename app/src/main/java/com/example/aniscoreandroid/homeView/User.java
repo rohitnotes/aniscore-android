@@ -68,6 +68,7 @@ public class User extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), UserActivity.class);
                     intent.putExtra("USER_ID", preference.getString("userId", ""));
+                    intent.putExtra("SOURCE", "MAIN");
                     startActivity(intent);
                 }
             });

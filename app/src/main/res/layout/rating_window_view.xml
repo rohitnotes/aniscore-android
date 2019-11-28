@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <TextView
+        android:text="Rate the bangumi"
+        android:textSize="10pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+    <RatingBar
+        android:id="@+id/rating_stars_clickable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:elevation="0dp"
+        android:progressTint="@color/score_color"
+        android:secondaryProgressTint="@android:color/transparent"
+        android:stepSize="1" />
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import com.example.aniscoreandroid.model.bangumiList.BangumiListResponse;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreResponse;
 import com.example.aniscoreandroid.model.bangumi.BangumiResponse;
+import com.example.aniscoreandroid.model.bangumiScore.BangumiScoreResponse;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
 import com.example.aniscoreandroid.model.singleComment.SingleCommentResponse;
 import com.example.aniscoreandroid.model.user.AuthResponse;
@@ -107,4 +108,8 @@ public interface ServerCall {
     // submit a comment
     @POST("/api/comment")
     Call<SingleCommentResponse> submitComment(@Body HashMap<String, String> comment);
+
+    // submit score for a bangumi
+    @PUT("/api/bangumiScore/{bangumiId}")
+    Call<BangumiScoreResponse> submitScore(@Path("bangumiId") String bangumiId, @Body HashMap<String, String> scoreDetail);
 }
