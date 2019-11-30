@@ -13,6 +13,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     private Bundle args;
     private String[] titles;
     private Fragment[] fragments;
+    private int positionMode = POSITION_UNCHANGED;
 
     public ScreenSlidePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -31,6 +32,20 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         pageNum = pageNumber;
     }
 
+    public ScreenSlidePagerAdapter(FragmentManager fm, Fragment[] fragmentList, HashMap<String, String> arguments, String[] titleList, int pageNumber, int mode) {
+        super(fm);
+        if (arguments != null) {
+            args = new Bundle();
+            for (Map.Entry<String, String> arg : arguments.entrySet()) {
+                args.putString(arg.getKey(), arg.getValue());
+            }
+        }
+        fragments = fragmentList;
+        titles = titleList;
+        pageNum = pageNumber;
+        positionMode = mode;
+    }
+
     @Override
     public Fragment getItem(int position) {
         if (args != null) {
@@ -46,7 +61,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return POSITION_UNCHANGED;
+        return positionMode;
     }
 
     @Override

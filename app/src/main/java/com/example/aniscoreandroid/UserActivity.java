@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.view.WindowCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -50,21 +53,22 @@ public class UserActivity extends AppCompatActivity {
     private String userId;                              // the userId of the user current user visited
     private static User user;                           // the user page current user visited
     private static User currentUser;                    // current user
-    private String bangumiId;                           // bangumi id, for condition switching from comment section of detail page to user page
     private String sourcePage;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_user);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            actionBar.setHideOnContentScrollEnabled(true);
         }
         Intent intent = getIntent();
         userId = intent.getStringExtra("USER_ID");
         sourcePage = intent.getStringExtra("SOURCE");
-        bangumiId = intent.getStringExtra("bangumiId");
         preference = getApplicationContext().getSharedPreferences("Current user", Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.user_navigation);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -105,7 +109,8 @@ public class UserActivity extends AppCompatActivity {
             intent = new Intent(this, MainActivity.class);
         } else if (sourcePage.equals("DETAIL")){
             intent = new Intent(this, DetailActivity.class);
-            intent.putExtra("BANGUMI_ID", bangumiId);
+        } else if (sourcePage.equals("SEARCH")) {
+            intent = new Intent(this, SearchActivity.class);
         }
         if (intent != null) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -285,28 +290,28 @@ public class UserActivity extends AppCompatActivity {
         if (avatarPath != null && avatarPath.length() > 0) {
             // avoid caching in order to update avatar
             Glide.with(this).load(baseUrl + user.getAvatar()).asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
-                    .into(new BitmapImageViewTarget(avatar) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            RoundedBitmapDrawable circularBitmapDrawable =
-                                    RoundedBitmapDrawableFactory.create(getResources(), resource);
-                            circularBitmapDrawable.setCircular(true);
-                            avatar.setImageDrawable(circularBitmapDrawable);
-                        }
-                    });
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         } else {
             Glide.with(this).load(R.drawable.default_avatar).asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
-                    .into(new BitmapImageViewTarget(avatar) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            RoundedBitmapDrawable circularBitmapDrawable =
-                                    RoundedBitmapDrawableFactory.create(getResources(), resource);
-                            circularBitmapDrawable.setCircular(true);
-                            avatar.setImageDrawable(circularBitmapDrawable);
-                        }
-                    });
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         }
     }
 

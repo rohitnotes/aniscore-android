@@ -1,6 +1,8 @@
 package com.example.aniscoreandroid;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.view.WindowCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -37,10 +40,10 @@ public class DetailActivity extends AppCompatActivity {
     private static BangumiDetail bangumiDetail;
     //private static BottomNavigationView navigationView;
     private static TabLayout tabNavigation;
-    private final String DEVELOPER_KEY = "AIzaSyCVBSekj5NusFaix11p_4k1P50XU4AjxSk";
     private Retrofit retrofitApi = new Retrofit.Builder().baseUrl("https://api.jikan.moe/v3/")
             .addConverterFactory(GsonConverterFactory.create()).build();
-
+    private YouTubePlayer currentYouTubePlayer;
+    private ActionBar actionBar;
     private ViewPager viewPager;
 
     /**
@@ -48,17 +51,19 @@ public class DetailActivity extends AppCompatActivity {
      */
     private PagerAdapter pagerAdapter;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         bangumiId = intent.getStringExtra("BANGUMI_ID");
         sourcePage = intent.getStringExtra("SOURCE");
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            //actionBar.hide();
         }
         fetchBangumiDetail();
     }
@@ -110,6 +115,10 @@ public class DetailActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (sourcePage.equals("USER")) {
             intent = new Intent(this, UserActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        } else if (sourcePage.equals("SEARCH")) {
+            intent = new Intent(this, SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
@@ -193,11 +202,40 @@ public class DetailActivity extends AppCompatActivity {
         if (videoId == null) {
             return;
         }
-        YouTubePlayerSupportFragment video = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.video);
+        final String DEVELOPER_KEY = "AIzaSyCVBSekj5NusFaix11p_4k1P50XU4AjxSk";
+        YouTubePlayerSupportFragment video = (YouTubePlayerSupportFragment)getSupportFragmentManager().findFragmentById(R.id.video);
         video.initialize(DEVELOPER_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
                 youTubePlayer.loadVideo(videoId);
+                currentYouTubePlayer = youTubePlayer;
+                // set action bar state (hide or show) when video is playing or pause
+                currentYouTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+                    @Override
+                    public void onPlaying() {
+                        actionBar.hide();
+                    }
+
+                    @Override
+                    public void onPaused() {
+                        actionBar.show();
+                    }
+
+                    @Override
+                    public void onStopped() {
+
+                    }
+
+                    @Override
+                    public void onBuffering(boolean b) {
+
+                    }
+
+                    @Override
+                    public void onSeekTo(int i) {
+
+                    }
+                });
             }
 
             @Override

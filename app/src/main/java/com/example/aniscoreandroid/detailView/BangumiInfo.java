@@ -52,6 +52,9 @@ public class BangumiInfo extends Fragment {
         return score;
     }
 
+    /*
+     * update the score of bangumi when current user has submit a new score, called in RatingWindow
+     */
     public static void setScore(double newScore) {
         score = newScore;
         TextView scoreView = view.findViewById(R.id.score);
@@ -64,6 +67,9 @@ public class BangumiInfo extends Fragment {
         return userNumber;
     }
 
+    /*
+     * update the user number rating the bangumi when current user has submit a new score, called in RatingWindow
+     */
     public static void setUserNumber(int newUserNumber) {
         userNumber = newUserNumber;
         TextView userNumberView = view.findViewById(R.id.user_number);

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/bangumi_section">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="5dp">
+
+        <ImageView
+            android:id="@+id/bangumi_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:minWidth="125dp"
+            android:maxWidth="125dp"
+            android:minHeight="160dp"
+            android:maxHeight="160dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/bangumi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/card"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:minWidth="120dp"
+        android:maxWidth="160dp"
+        android:textSize="7pt"
+        android:textColor="@color/titleColor" />
+
+    <TextView
+        android:id="@+id/synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@id/card"
+        android:minWidth="120dp"
+        android:maxWidth="160dp"
+        android:layout_below="@id/bangumi_title"/>
+
+    <TextView
+        android:text="9.9"
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="5dp"
+        android:textSize="10pt"
+        android:textColor="@color/score_color"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:id="@+id/user_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/score"
+        android:layout_alignParentEnd="true"/>
+
+    <View
+        android:id="@+id/divider_1"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_below="@id/card"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+</RelativeLayout>

@@ -7,8 +7,10 @@ import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreRespon
 import com.example.aniscoreandroid.model.bangumi.BangumiResponse;
 import com.example.aniscoreandroid.model.bangumiScore.BangumiScoreResponse;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
+import com.example.aniscoreandroid.model.commentNumber.CommentNumberResponse;
 import com.example.aniscoreandroid.model.singleComment.SingleCommentResponse;
 import com.example.aniscoreandroid.model.user.AuthResponse;
+import com.example.aniscoreandroid.model.user.UserListResponse;
 import com.example.aniscoreandroid.model.user.UserResponse;
 
 import java.util.HashMap;
@@ -93,6 +95,9 @@ public interface ServerCall {
     @GET("/api/comment/parentcomment/{bangumiId}/{page}")
     Call<CommentResponse> getParentCommentsByBangumiIdWithPage(@Path("bangumiId") String bangumiId, @Path("page") int page);
 
+    @GET("/api/comment/parentcomment/{bangumiId}/count")
+    Call<CommentNumberResponse> getParentCommentCountByBangumiId(@Path("bangumiId") String bangumiId);
+
     // like or dislike a comment
     @PUT("/api/comment/{commentId}")
     Call<CommentResponse> updateStatusOfComment(@Path("commentId") String commentId, @Body HashMap<String, String> userInfo);
@@ -112,4 +117,12 @@ public interface ServerCall {
     // submit score for a bangumi
     @PUT("/api/bangumiScore/{bangumiId}")
     Call<BangumiScoreResponse> submitScore(@Path("bangumiId") String bangumiId, @Body HashMap<String, String> scoreDetail);
+
+    // search for a bangumi by name
+    @GET("/api/bangumiList/search/{query}")
+    Call<BangumiListScoreResponse> searchBangumiByName(@Path("query") String query);
+
+    // search for a user by username
+    @GET("/api/user/search/{query}")
+    Call<UserListResponse> searchUserByUsername(@Path("query") String query);
 }

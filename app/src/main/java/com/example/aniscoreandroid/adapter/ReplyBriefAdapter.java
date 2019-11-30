@@ -1,5 +1,7 @@
 package com.example.aniscoreandroid.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.UserActivity;
 import com.example.aniscoreandroid.detailView.CommentDetail;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.comment.Comment;
@@ -55,7 +58,18 @@ public class ReplyBriefAdapter extends RecyclerView.Adapter<ReplyBriefAdapter.Re
     @Override
     public void onBindViewHolder(ReplyViewHolder holder, int position) {
         final Comment current = replies.get(position);
-        holder.replyUsername.setText(current.getUsername());
+        holder.replyUsername.setText((current.getUsername() + ": "));
+        // set listener for username, clicking username to direct to user page of the user
+        holder.replyUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, UserActivity.class);
+                intent.putExtra("USER_ID", current.getUserId());
+                intent.putExtra("SOURCE", "DETAIL");            // set source page for directing back
+                context.startActivity(intent);
+            }
+        });
         holder.replyContent.setText(current.getCommentContent());
         holder.replyLayout.setOnClickListener(new View.OnClickListener() {
             @Override

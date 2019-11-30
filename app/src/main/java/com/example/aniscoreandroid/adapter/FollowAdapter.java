@@ -122,8 +122,8 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
         // determine whether the user has his own avatar
         if (current.getAvatar()!=null && current.getAvatar().length() > 0) {
             Glide.with(context).load(baseUrl + current.getAvatar()).asBitmap().centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                    .override(150, 150).into(new BitmapImageViewTarget(holder.avatar) {
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                .override(150, 150).into(new BitmapImageViewTarget(holder.avatar) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =
@@ -134,8 +134,8 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
                 });
         } else {
             Glide.with(context).load(R.drawable.default_avatar).asBitmap().centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                    .override(150, 150).into(new BitmapImageViewTarget(holder.avatar) {
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                .override(150, 150).into(new BitmapImageViewTarget(holder.avatar) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =

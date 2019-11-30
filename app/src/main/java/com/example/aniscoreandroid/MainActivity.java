@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,11 +39,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
-    private BottomNavigationView navigationView;
     private int selectId = 0;
     public final static String SELECTED_YEAR = "BANGUMI_YEAR";
     public final static String SELECTED_SEASON = "BANGUMI_SEASON";
-    private final String baseUrl = "http://10.0.2.2:4000/";
     private static SharedPreferences preference;
     private static SharedPreferences.Editor editor;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navigationView = findViewById(R.id.navigation);
+        BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -110,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         // set avatar
+        String baseUrl = "http://10.0.2.2:4000/";
         final ImageView avatar = new ImageView(this);
         avatar.setMaxWidth(120);
         avatar.setMinimumWidth(120);
@@ -136,6 +136,23 @@ public class MainActivity extends AppCompatActivity {
                 toUser();
             }
         });
+        // set search bar
+        SearchView searchView = (SearchView)menu.findItem(R.id.search_bar).getActionView();
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        toSearch(query);
+                        return true;
+                    }
+                }
+        );
         return true;
     }
 
@@ -155,6 +172,15 @@ public class MainActivity extends AppCompatActivity {
         String userId = preference.getString("userId", "");
         intent.putExtra("USER_ID", userId);
         intent.putExtra("SOURCE", "MAIN");
+        startActivity(intent);
+    }
+
+    /*
+     * to the search result page
+     */
+    private void toSearch(String query) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("SEARCH_QUERY", query);
         startActivity(intent);
     }
 

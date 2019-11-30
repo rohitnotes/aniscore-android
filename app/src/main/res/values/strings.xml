@@ -26,4 +26,6 @@
     <string name="original_name">Original Name</string>
     <string name="other_names">Similar Names</string>
     <string name="synopsis">Synopsis</string>
+    <string name="not_found">Not Found</string>
+    <string name="view_all_replies">View all replies</string>
 </resources>

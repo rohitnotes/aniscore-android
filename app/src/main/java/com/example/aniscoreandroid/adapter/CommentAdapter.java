@@ -126,7 +126,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), UserActivity.class);
                 intent.putExtra("USER_ID", current.getUserId());
-                intent.putExtra("bangumiId", Comments.getBangmiId());
                 intent.putExtra("SOURCE", "DETAIL");
                 view.getContext().startActivity(intent);
             }
@@ -136,8 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         // set username
         if (!isInMain && !(current.getRepliedUsername().equals("none"))
                 && !(current.getRepliedCommentId().equals(current.getParentCommentId()))) {
-            sb.append("@");
-            sb.append(current.getRepliedUsername());
+            sb.append("@").append(current.getRepliedUsername());
         }
         holder.username.setText(sb.toString());
         // set date

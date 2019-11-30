@@ -20,6 +20,7 @@ import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreData;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScoreResponse;
 import com.example.aniscoreandroid.model.comment.Comment;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
+import com.example.aniscoreandroid.model.commentNumber.CommentNumberResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
 
 import java.util.LinkedList;
@@ -63,7 +64,7 @@ public class CommentMain extends Fragment {
         });
         recyclerView.setLayoutManager(linearLayoutManager);
         // get first page of comments and fetch score using multi thread
-        ExecutorService exec = Executors.newFixedThreadPool(2);
+        ExecutorService exec = Executors.newFixedThreadPool(3);
         exec.execute(new Runnable() {
             @Override
             public void run() {
@@ -76,11 +77,20 @@ public class CommentMain extends Fragment {
                 getParentComments(1);
             }
         });
+        exec.execute(new Runnable() {
+            @Override
+            public void run() {
+                getParentCommentNumber();
+            }
+        });
         exec.shutdown();
         Comments.setSubmitClickListener("none", "none", "none", comments, adapter);
         return view;
     }
 
+    /*
+     * update the score of bangumi when current user has submit a new score, called in RatingWindow
+     */
     public static void setScore(double newScore) {
         score = newScore;
         TextView scoreView = view.findViewById(R.id.score);
@@ -89,6 +99,9 @@ public class CommentMain extends Fragment {
         scoreView.setText((score + ""));
     }
 
+    /*
+     * update the user number rating the bangumi when current user has submit a new score, called in RatingWindow
+     */
     public static void setUserNumber(int newUserNumber) {
         userNumber = newUserNumber;
         TextView userNumberView = view.findViewById(R.id.user_number);
@@ -169,6 +182,24 @@ public class CommentMain extends Fragment {
 
             @Override
             public void onFailure(Call<CommentResponse> call, Throwable t) {
+                System.out.println(t.toString());
+            }
+        });
+    }
+
+    private void getParentCommentNumber() {
+        ServerCall service = retrofit.create(ServerCall.class);
+        Call<CommentNumberResponse> parentCommentCountCall = service.getParentCommentCountByBangumiId(bangumiId);
+        parentCommentCountCall.enqueue(new Callback<CommentNumberResponse>() {
+            @Override
+            public void onResponse(Call<CommentNumberResponse> call, Response<CommentNumberResponse> response) {
+                if (response.isSuccessful()) {
+                    ((TextView)view.findViewById(R.id.comment_number)).setText((response.body().getData().getCommentNumber()+" comments"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentNumberResponse> call, Throwable t) {
                 System.out.println(t.toString());
             }
         });
