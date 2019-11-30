@@ -121,8 +121,12 @@ public class Comments extends Fragment {
     private static void submitComment(final String parentCommentId, final String repliedCommentId, String repliedUsername,
                                       final List<Comment> comments, final RecyclerView.Adapter adapter) {
         // set pop up window
-        if (currentUsername == null || currentUserId == null || commentListener.getQuery() == null || commentListener.getQuery().length() == 0) {
+        if (currentUsername == null || currentUserId == null) {
             showDialog();
+            return;
+        }
+        // use has not entered any comment
+        if (commentListener.getQuery() == null || commentListener.getQuery().length() == 0) {
             return;
         }
         ServerCall service = retrofit.create(ServerCall.class);
