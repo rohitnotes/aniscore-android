@@ -73,8 +73,13 @@ public class SelectImageActivity extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(screenWidth, screenWidth)
                     .into(preview);
         } else {
+            // user has not set avatar/background
             if (mode.equals("background")) {
                 preview.setImageResource(R.drawable.default_background);
+                preview.setScaleType(ImageView.ScaleType.FIT_XY);
+                preview.setAdjustViewBounds(true);
+            } else {
+                preview.setImageResource(R.drawable.default_avatar);
                 preview.setScaleType(ImageView.ScaleType.FIT_XY);
                 preview.setAdjustViewBounds(true);
             }
@@ -162,6 +167,8 @@ public class SelectImageActivity extends AppCompatActivity {
     private void toUser() {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra("USER_ID", userId);
+        // let user activity direct back to main when back arrow clicked
+        intent.putExtra("SOURCE", "MAIN");
         startActivity(intent);
     }
 }

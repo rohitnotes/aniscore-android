@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
-    tools:context="com.example.aniscoreandroid.LoginActivity">
+    tools:context="com.example.aniscoreandroid.SignUpActivity">
 
     <TextView
-        android:text="@string/login"
+        android:text="Sign Up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:textSize="13pt"/>
 
     <TextView
-        android:id="@+id/login_error"
-        android:textSize="6pt"
+        android:id="@+id/signup_error"
         android:textColor="@color/error_message_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="6pt"/>
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/enter_username"
         android:textColor="#000000"
-        android:hint="Enter email address"
+        android:hint="Enter username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="45dp"
+        android:layout_marginTop="30dp"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/enter_email"
+        android:textColor="#000000"
+        android:hint="Enter email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginTop="30dp"
         android:inputType="textEmailAddress"/>
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/enter_password"
         android:textColor="#000000"
-        android:hint="Enter password"
+        android:hint="Password must be at least 8 characters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="45dp"
+        android:layout_marginTop="30dp"
+        android:inputType="textPassword"/>
+
+
+    <EditText
+        android:id="@+id/confirm_password"
+        android:textColor="#000000"
+        android:hint="Confirm your password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginTop="30dp"
         android:inputType="textPassword"/>
 
     <LinearLayout
@@ -55,11 +77,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:id="@+id/login"
+            android:id="@+id/create_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/login"
+            android:text="Create Account"
             android:padding="10dp"
             android:backgroundTint="@color/button_color"
             android:textColor="@color/app_background" />
@@ -67,12 +89,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:id="@+id/signup"
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:text="Sign up"
+            android:text="Cancel"
             android:padding="10dp"
             android:backgroundTint="@color/button_color"
             android:textColor="@color/app_background" />

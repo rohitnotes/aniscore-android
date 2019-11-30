@@ -57,25 +57,26 @@ public class User extends Fragment {
         final Context context = getContext();
         // set avatar
         String avatarPath = preference.getString("avatar", "");
-        // current user has selected an avatar, avoid cache in order to update avatar
         if(avatarPath.length() > 0) {
+            // current user has selected an avatar, avoid cache the avatar in order to update avatar when user change avatar
             Glide.with(context).load(baseUrl + preference.getString("avatar", ""))
                     .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                     .override(200, 200).into(avatar);
-            // set click listener to direct to the user page
-            view.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), UserActivity.class);
-                    intent.putExtra("USER_ID", preference.getString("userId", ""));
-                    intent.putExtra("SOURCE", "MAIN");
-                    startActivity(intent);
-                }
-            });
-        } else {                // the user has not selected an avatar
+        } else {
+            // the user has not selected an avatar
             Glide.with(context).load(R.drawable.default_avatar).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .override(200, 200).into(avatar);
         }
+        // set click listener to direct to the user page
+        view.findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserActivity.class);
+                intent.putExtra("USER_ID", preference.getString("userId", ""));
+                intent.putExtra("SOURCE", "MAIN");
+                startActivity(intent);
+            }
+        });
     }
 }

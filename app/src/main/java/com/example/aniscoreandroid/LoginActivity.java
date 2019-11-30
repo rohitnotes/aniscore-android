@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.aniscoreandroid.model.user.AuthResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.utils.TextChangeListener;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
 
@@ -25,9 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000").
             addConverterFactory(GsonConverterFactory.create()).build();
     private String email = "";
-    private String password= "";
-    private EditText enterEmail;
-    private EditText enterPassword;
     private TextChangeListener emailListener;
     private TextChangeListener passwordListener;
     public static final String CURRENT_USER_NAME = "CURRENT_USER_NAME";
@@ -37,30 +33,54 @@ public class LoginActivity extends AppCompatActivity {
     private String username = "";
     private String avatar = "";
     private String userId = "";
+    private String LOGIN_SUCCESS = "Successfully Login";
+    private String USER_NOT_FOUND = "Could not find user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        enterEmail = findViewById(R.id.email);
+        // add text change listener for email box
+        EditText enterEmail = findViewById(R.id.email);
         emailListener = new TextChangeListener();
-        passwordListener = new TextChangeListener();
         enterEmail.addTextChangedListener(emailListener);
-        enterPassword = findViewById(R.id.password);
+        // add text change listener for password box
+        EditText enterPassword = findViewById(R.id.password);
+        passwordListener = new TextChangeListener();
         enterPassword.addTextChangedListener(passwordListener);
-        MaterialButton login = findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
+        // set click listener for login button
+        findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
             }
         });
+        // set click listener for sign up button
+        findViewById(R.id.signup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toSignUp();
+            }
+        });
     }
 
     private void login() {
-        email = emailListener.getQuery();
-        password = passwordListener.getQuery();
         ServerCall service = retrofit.create(ServerCall.class);
+        final TextView errorMessage = findViewById(R.id.login_error);
+        email = emailListener.getQuery();
+        String password = passwordListener.getQuery();
+        // judge whether user input is in correct format
+        if (email.length() == 0) {
+            errorMessage.setText(("Please enter email address"));
+            return;
+        } else if (!email.contains("@")) {
+            errorMessage.setText(("Incorrect email address format"));
+            return;
+        } else if (password.length() == 0) {
+            errorMessage.setText(("Please enter password"));
+            return;
+        }
+        // login call in server
         HashMap<String, String> input = new HashMap<>();
         input.put("email", email);
         input.put("password", password);
@@ -69,14 +89,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getMessage().equals("Successfully Login")) {            // successfully login
-                        ((TextView)findViewById(R.id.test)).setText(response.body().getUser().getAvatar());
+                    String message = response.body().getMessage();
+                    if (message.equals(LOGIN_SUCCESS)) {
+                        // successfully login
                         username = response.body().getUser().getUsername();
                         avatar = response.body().getUser().getAvatar();
                         userId = response.body().getUser().getUserId();
                         toHome();
-                    } else {
-                        ((TextView)findViewById(R.id.test)).setText(("password error"));
+                    } else if (message.equals(USER_NOT_FOUND)){
+                        // user not found or incorrect password
+                        errorMessage.setText(("Incorrect account or password"));
                     }
                 }
             }
@@ -94,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(CURRENT_USER_AVATAR, avatar);
         intent.putExtra(CURRENT_USER_EMAIL, email);
         intent.putExtra(CURRENT_USER_ID, userId);
+        startActivity(intent);
+    }
+
+    private void toSignUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 }

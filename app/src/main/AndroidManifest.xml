@@ -30,6 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUpActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
+            <intent-filter>
+                <action android:name="android.intent.action.SIGNUP" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SearchActivity"
             android:parentActivityName=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">

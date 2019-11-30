@@ -50,11 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_score_bangumi"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:textSize="8pt"
         android:layout_below="@id/arrow_1"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
         android:visibility="gone"/>
 
     <TextView
@@ -103,10 +103,10 @@
         android:id="@+id/no_following"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/no_following"
         android:textSize="8pt"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:gravity="center"
         android:layout_below="@id/arrow_2"
         android:visibility="gone"/>
@@ -160,8 +160,8 @@
         android:layout_height="wrap_content"
         android:text="@string/no_follower"
         android:layout_below="@id/arrow_3"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:textSize="8pt"
         android:gravity="center"
         android:visibility="gone"/>

@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         avatar.setMinimumHeight(120);
         final Context context = avatar.getContext();
         if (preference != null && preference.getString("avatar", "").length() > 0) {
+            // user has his own avatar
             Glide.with(this).load(baseUrl + preference.getString("avatar", null))
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
                     .into(new BitmapImageViewTarget(avatar) {
@@ -128,14 +129,38 @@ public class MainActivity extends AppCompatActivity {
                         avatar.setImageDrawable(circularBitmapDrawable);
                     }
                 });
+        } else {
+            // set default avatar
+            Glide.with(this).load(R.drawable.default_avatar).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).centerCrop()
+                .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
         }
         menu.findItem(R.id.avatar).setActionView(avatar);
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toUser();
-            }
-        });
+        // currently there is user login
+        if (preference != null && preference.getString("username", null) != null) {
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toUser();
+                }
+            });
+        } else {
+            // currently no user login
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toLogin();
+                }
+            });
+        }
         // set search bar
         SearchView searchView = (SearchView)menu.findItem(R.id.search_bar).getActionView();
         searchView.setSubmitButtonEnabled(true);

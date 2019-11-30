@@ -53,6 +53,11 @@ public interface ServerCall {
     @POST("/api/auth/login")
     Call<AuthResponse> login(@Body HashMap<String, String> input);
 
+    // signup
+    @Headers("Content-Type: application/json")
+    @POST("/api/auth/signup")
+    Call<AuthResponse> signup(@Body HashMap<String, String> input);
+
     // logout
     @POST("/api/auth/logout")
     Call<AuthResponse> logout();
