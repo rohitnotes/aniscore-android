@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.aniscoreandroid.SignUpActivity">
+    tools:context="com.example.aniscoreandroid.SignupActivity">
 
     <TextView
         android:text="Sign Up"

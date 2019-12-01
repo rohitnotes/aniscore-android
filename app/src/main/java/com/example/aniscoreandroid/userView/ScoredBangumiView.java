@@ -23,7 +23,7 @@ public class ScoredBangumiView extends Fragment {
     List<BangumiBriefScore> scoredBangumis;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        View view = inflater.inflate(R.layout.scored_bangumi_layout, container, false);
+        View view = inflater.inflate(R.layout.scored_bangumi_view, container, false);
         ScoredBangumi[] scoredBangumiList = UserActivity.getUserInfo().getScoredBangumis();
         RecyclerView recyclerView = view.findViewById(R.id.scored_bangumi_list);
         // the user has not scored any bangumis

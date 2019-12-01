@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.aniscoreandroid.detailView.BangumiInfo;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
+import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;

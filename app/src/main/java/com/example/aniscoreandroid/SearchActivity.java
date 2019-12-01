@@ -8,12 +8,12 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.aniscoreandroid.searchResultView.BangumiResult;
 import com.example.aniscoreandroid.searchResultView.UserResult;
+import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -30,7 +30,6 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Intent intent = getIntent();
         query = intent.getStringExtra("SEARCH_QUERY");
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         viewPager = findViewById(R.id.search_pager);
         fragments = new Fragment[2];
         fragments[0] = new BangumiResult();

@@ -8,31 +8,30 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.core.view.WindowCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
-import com.example.aniscoreandroid.userView.Follow;
-import com.example.aniscoreandroid.userView.ScoredBangumiView;
-import com.example.aniscoreandroid.userView.UserHome;
+import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter2;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -53,7 +52,9 @@ public class UserActivity extends AppCompatActivity {
     private String userId;                              // the userId of the user current user visited
     private static User user;                           // the user page current user visited
     private static User currentUser;                    // current user
-    private String sourcePage;
+    private String sourcePage;                          // page direct to user page
+    private ViewPager2 viewPager;
+    public static TabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -70,14 +71,21 @@ public class UserActivity extends AppCompatActivity {
         userId = intent.getStringExtra("USER_ID");
         sourcePage = intent.getStringExtra("SOURCE");
         preference = getApplicationContext().getSharedPreferences("Current user", Context.MODE_PRIVATE);
-        navigationView = findViewById(R.id.user_navigation);
+        /*navigationView = findViewById(R.id.user_navigation);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 selectFragment(menuItem);
                 return true;
             }
-        });
+        });*/
+        // add tabs to tab layout
+        tabLayout = findViewById(R.id.tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("主页"));
+        tabLayout.addTab(tabLayout.newTab().setText("番剧"));
+        tabLayout.addTab(tabLayout.newTab().setText("关注"));
+        tabLayout.addTab(tabLayout.newTab().setText("粉丝"));
+        // get current user and user from server
         ExecutorService exec = Executors.newFixedThreadPool(2);
         exec.execute(new Runnable() {
             @Override
@@ -92,6 +100,20 @@ public class UserActivity extends AppCompatActivity {
             }
         });
         exec.shutdown();
+    }
+
+
+    //added code view pager
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        }
     }
 
 
@@ -124,12 +146,14 @@ public class UserActivity extends AppCompatActivity {
      */
     private void retrieveCurrentUser() {
         if (preference == null) {
-            findViewById(R.id.follow_status).setVisibility(View.GONE);         // set status button to invisible
+            // no user logged in, set status button to invisible
+            findViewById(R.id.follow_status).setVisibility(View.GONE);
             return;
         }
         String currentUserId = preference.getString("userId", null);
         if (currentUserId == null) {
-            findViewById(R.id.follow_status).setVisibility(View.GONE);      // set status button to invisible
+            // no user logged in, set status button to invisible
+            findViewById(R.id.follow_status).setVisibility(View.GONE);
             return;
         }
         ServerCall service = retrofit.create(ServerCall.class);
@@ -163,7 +187,7 @@ public class UserActivity extends AppCompatActivity {
     /*
      * navigation bar listener
      */
-    private void selectFragment(MenuItem menuItem) {
+    /*private void selectFragment(MenuItem menuItem) {
         Fragment fragment = null;
         switch(menuItem.getItemId()) {
             case R.id.home:
@@ -184,7 +208,7 @@ public class UserActivity extends AppCompatActivity {
             ft.replace(R.id.container, fragment);
             ft.commit();
         }
-    }
+    }*/
 
     /*
      * get current visited user, used in fragments of user activity
@@ -207,8 +231,10 @@ public class UserActivity extends AppCompatActivity {
                         user = response.body().getUserData().getUser();
                         setView(user);
                         // set default fragment
-                        MenuItem item = navigationView.getMenu().getItem(0);
-                        selectFragment(item);
+                        //MenuItem item = navigationView.getMenu().getItem(0);
+                        //selectFragment(item);
+                        setViewPager2();
+                        setTabClickListener();
                     }
                 }
             }
@@ -220,6 +246,49 @@ public class UserActivity extends AppCompatActivity {
         });
     }
 
+    /*
+     * set view pager and corresponding listener when user is fetched from server
+     */
+    private void setViewPager2() {
+        viewPager = findViewById(R.id.user_navigation);
+        FragmentStateAdapter pagerAdapter = new ScreenSlidePagerAdapter2(this);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                // make corresponding tab as selected
+                tabLayout.getTabAt(position).select();
+            }
+        });
+    }
+
+    /*
+     * set click listener tab, clicking the tab can direct to corresponding page
+     */
+    private void setTabClickListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int index = tab.getPosition();
+                viewPager.setCurrentItem(index);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    /*
+     * set user info
+     */
     private void setView(User user) {
         //set username
         TextView username = findViewById(R.id.username);
@@ -342,7 +411,6 @@ public class UserActivity extends AppCompatActivity {
             });
         }
     }
-
 
     /*
      * follow or unfollow the user with userId based on the button

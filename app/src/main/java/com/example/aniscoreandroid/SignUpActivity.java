@@ -21,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
             .addConverterFactory(GsonConverterFactory.create()).build();
     private TextChangeListener usernameListener;

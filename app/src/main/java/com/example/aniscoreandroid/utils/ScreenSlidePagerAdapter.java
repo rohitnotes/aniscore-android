@@ -1,9 +1,11 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.utils;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.aniscoreandroid.userView.UserHome;
 
 import java.util.HashMap;
 import java.util.Map;
