@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aniscoreandroid.adapter.EndlessListLoad;
+import com.example.aniscoreandroid.utils.EndlessListLoad;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.example.aniscoreandroid.adapter.BangumiSeasonAdapter;

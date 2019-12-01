@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aniscoreandroid.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.adapter.CommentAdapter;
-import com.example.aniscoreandroid.adapter.EndlessListLoad;
+import com.example.aniscoreandroid.utils.EndlessListLoad;
 import com.example.aniscoreandroid.model.comment.Comment;
 import com.example.aniscoreandroid.model.comment.CommentResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
