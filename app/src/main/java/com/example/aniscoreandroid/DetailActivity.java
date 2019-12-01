@@ -234,7 +234,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onBuffering(boolean b) {
-
+                        actionBar.show();
                     }
 
                     @Override
