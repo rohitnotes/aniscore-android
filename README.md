@@ -17,7 +17,7 @@
 <img src="assets/detail.png" alt="bangumi" width="250" height="500">
 
 ### 评论
-<img src="assets/comments.png" alt="comments" width="250" height="500" hspace="30"><img src="assets/replies.png" alt="replies" width="250" height="500">
+<img src="assets/comments.png" alt="comments" width="250" height="500"><img src="assets/replies.png" alt="replies" width="250" height="500" hspace="20">
 
 ### 用户
 <img src="assets/user.png" alt="user" width="250" height="500">
