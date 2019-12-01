@@ -36,8 +36,8 @@ public class BangumiInfo extends Fragment {
     private static View view;
     private Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:4000")
             .addConverterFactory(GsonConverterFactory.create()).build();
-    private static double score = 0.0;
-    private static int userNumber = 0;
+    private static double score;
+    private static int userNumber;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {

@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.aniscoreandroid.detailView.BangumiInfo;
 import com.example.aniscoreandroid.detailView.Comments;
+import com.example.aniscoreandroid.loadingView.Loading;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter;
 import com.example.aniscoreandroid.utils.ServerCall;
@@ -47,11 +48,6 @@ public class DetailActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ViewPager viewPager;
 
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private PagerAdapter pagerAdapter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +62,11 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             //actionBar.hide();
         }
+        viewPager = findViewById(R.id.pager);
+        Fragment[] fragments = {new Loading()};
+        String[] titles = {""};
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragments, null, titles, 1);
+        viewPager.setAdapter(pagerAdapter);
         fetchBangumiDetail();
     }
 
@@ -179,13 +180,17 @@ public class DetailActivity extends AppCompatActivity {
                     videoUrl = response.body().getTrailerLink();
                     getVideoIdFromUrl(videoUrl);
                     setVideo();
-                    viewPager = findViewById(R.id.pager);
+                    // set video section visible
+                    findViewById(R.id.video_section).setVisibility(View.VISIBLE);
+                    // set view pager adapter
                     String[] titles = {"Info", "Comments"};
                     HashMap<String, String> map = new HashMap<>();
                     map.put("bangumiId", bangumiId);
                     Fragment[] fragments = {new BangumiInfo(), new Comments()};
-                    pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragments, map, titles, 2);
+                    // set new pagerAdapter
+                    PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragments, map, titles, 2);
                     viewPager.setAdapter(pagerAdapter);
+                    findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
                     tabNavigation = findViewById(R.id.tab_layout);
                     tabNavigation.setupWithViewPager(viewPager);
                 }

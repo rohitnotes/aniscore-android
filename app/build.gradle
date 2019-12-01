@@ -33,7 +33,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.support:design:28.1.0'
-    implementation files('libs/glide-3.6.0.jar')
+    implementation files('libs')
     implementation files('libs/viewpager2-1.0.0.aar')
-    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation files('libs/android-gif-drawable-1.2.8.aar')
 }

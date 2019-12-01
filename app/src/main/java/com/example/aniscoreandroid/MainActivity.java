@@ -66,20 +66,19 @@ public class MainActivity extends AppCompatActivity {
         if (preference == null) {
             preference = getApplicationContext().getSharedPreferences("Current user", Context.MODE_PRIVATE);
             editor = preference.edit();
-        } else {            // the shared preference has been initialized
-            Intent intent = getIntent();
-            String username = intent.getStringExtra(LoginActivity.CURRENT_USER_NAME);
-            // currently there is user logged in
-            if (username != null && username.length() > 0) {
-                String userId = intent.getStringExtra(LoginActivity.CURRENT_USER_ID);
-                String email = intent.getStringExtra(LoginActivity.CURRENT_USER_EMAIL);
-                String avatar = intent.getStringExtra(LoginActivity.CURRENT_USER_AVATAR);
-                editor.putString("username", username);
-                editor.putString("email", email);
-                editor.putString("userId", userId);
-                editor.putString("avatar", avatar);
-                editor.apply();
-            }
+        }
+        Intent intent = getIntent();
+        String username = intent.getStringExtra(LoginActivity.CURRENT_USER_NAME);
+        // currently there is user logged in
+        if (username != null && username.length() > 0) {
+            String userId = intent.getStringExtra(LoginActivity.CURRENT_USER_ID);
+            String email = intent.getStringExtra(LoginActivity.CURRENT_USER_EMAIL);
+            String avatar = intent.getStringExtra(LoginActivity.CURRENT_USER_AVATAR);
+            editor.putString("username", username);
+            editor.putString("email", email);
+            editor.putString("userId", userId);
+            editor.putString("avatar", avatar);
+            editor.apply();
         }
     }
 
@@ -98,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        } else {            // currently there is no user logged in
+        } else {
+            // currently there is no user logged in
             authItem.setTitle("Log in");
             authItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -165,18 +165,18 @@ public class MainActivity extends AppCompatActivity {
         SearchView searchView = (SearchView)menu.findItem(R.id.search_bar).getActionView();
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(
-                new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        toSearch(query);
-                        return true;
-                    }
+            new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
                 }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    toSearch(query);
+                    return true;
+                }
+            }
         );
         return true;
     }
@@ -221,8 +221,10 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getMessage().equals("Log Out Successfully")) {
                         Intent intent = getIntent();
+                        // clear shared preference data
                         editor.clear();
                         editor.apply();
+                        // clear data stored in intent
                         intent.putExtra(LoginActivity.CURRENT_USER_NAME, "");
                         intent.putExtra(LoginActivity.CURRENT_USER_ID, "");
                         intent.putExtra(LoginActivity.CURRENT_USER_AVATAR, "");

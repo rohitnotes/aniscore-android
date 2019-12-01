@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.aniscoreandroid.userView.UserHome;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +65,5 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return titles[position];
-    }
+    public CharSequence getPageTitle(int position) { return titles[position]; }
 }

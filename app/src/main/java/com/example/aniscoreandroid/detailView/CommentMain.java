@@ -143,8 +143,10 @@ public class CommentMain extends Fragment {
         ((TextView)view.findViewById(R.id.user_number)).setText((userNumber+" users scored"));
         RatingBar bar = view.findViewById(R.id.rating_stars);
         bar.setRating((float)(score/2.0));
-        BangumiInfo.setScore(score);
-        BangumiInfo.setUserNumber(userNumber);
+        if (score > 0.0 && userNumber > 0) {
+            BangumiInfo.setScore(score);
+            BangumiInfo.setUserNumber(userNumber);
+        }
         view.findViewById(R.id.score_section).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
