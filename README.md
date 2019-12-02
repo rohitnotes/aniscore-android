@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="assets/moe.jpeg" alt="home" width="200" height="200"/>
+  <img src="assets/moe.jpeg" alt="home" width="auto" height="120"/>
 </p>
-
 <h1 align="center">Aniscore Android<h1>
 Aniscore安卓手机app版 (´・ω・`)<br>
 <br>
