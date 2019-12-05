@@ -83,12 +83,12 @@ public class UserHome extends Fragment {
      * click view more to switch to scored bangumi section
      */
     private void toScoredBangumi() {
-
-        UserActivity.getNavigationView().setSelectedItemId(R.id.scored_bangumi);
+        /*UserActivity.getNavigationView().setSelectedItemId(R.id.scored_bangumi);
         Fragment fragment = new ScoredBangumiView();
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.container, fragment);
-        ft.commit();
+        ft.commit();*/
+        UserActivity.getViewPager().setCurrentItem(1);
     }
 
     /*
@@ -97,14 +97,18 @@ public class UserHome extends Fragment {
      */
     private void toFollow(String mode) {
         if(mode.equals("following")) {
-            UserActivity.getNavigationView().setSelectedItemId(R.id.following);
+            //UserActivity.getNavigationView().setSelectedItemId(R.id.following);
+            // slide to the following section with tab updated
+            UserActivity.getViewPager().setCurrentItem(2);
         } else {
-            UserActivity.getNavigationView().setSelectedItemId(R.id.follower);
+            //UserActivity.getNavigationView().setSelectedItemId(R.id.follower);
+            // slide to the follower section with tab updated
+            UserActivity.getViewPager().setCurrentItem(3);
         }
-        Fragment fragment = new Follow(mode);
+        /*Fragment fragment = new Follow(mode);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.container, fragment);
-        ft.commit();
+        ft.commit();*/
     }
 
     /*

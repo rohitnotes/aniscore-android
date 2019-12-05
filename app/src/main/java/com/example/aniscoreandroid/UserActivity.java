@@ -51,8 +51,8 @@ public class UserActivity extends AppCompatActivity {
     private static User user;                           // the user page current user visited
     private static User currentUser;                    // current user
     private String sourcePage;                          // page direct to user page
-    private ViewPager2 viewPager;
-    public static TabLayout tabLayout;
+    private static ViewPager2 viewPager;
+    private TabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -118,6 +118,10 @@ public class UserActivity extends AppCompatActivity {
     @Override
     public Intent getSupportParentActivityIntent() {
         return getPreviousActivity();
+    }
+
+    public static ViewPager2 getViewPager() {
+        return viewPager;
     }
 
     /*
@@ -255,7 +259,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                // make corresponding tab as selected
+                // mark corresponding tab as selected
                 tabLayout.getTabAt(position).select();
             }
         });
@@ -320,6 +324,9 @@ public class UserActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * click image to switch to choose avatar/background page
+     */
     private void selectImage(String mode) {
         Intent intent = new Intent(this, SelectImageActivity.class);
         intent.putExtra("MODE", mode);
