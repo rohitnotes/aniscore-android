@@ -18,6 +18,9 @@ import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 
 import java.util.List;
 
+/*
+ * used for rank fragment in main activity, the rank is based on total score
+ */
 public class BangumiRankAdapter extends RecyclerView.Adapter<BangumiRankAdapter.BangumiRankViewHolder> {
     private List<BangumiBriefScore> rankList;
     private Context context;
@@ -59,18 +62,26 @@ public class BangumiRankAdapter extends RecyclerView.Adapter<BangumiRankAdapter.
     @Override
     public void onBindViewHolder(BangumiRankViewHolder holder, int position) {
         final BangumiBriefScore currentBangumi = rankList.get(position);
+        // set bangumi image
         Glide.with(context).load(currentBangumi.getImageUrl()).into(holder.image);
+        // set title
         holder.title.setText(currentBangumi.getTitle());
+        // set synopsis, if synopsis has more than 70 characters, take only first 70 characters
         String synopsis = currentBangumi.getSynopsis();
         if (synopsis.length() > 70) {
             holder.synopsis.setText((synopsis.substring(0, 70) + "..."));
         } else {
             holder.synopsis.setText(synopsis);
         }
+        // set rank number
         holder.rankNumber.setText((position+1+""));
+        // set average score
         holder.score.setText((currentBangumi.getScore() + ""));
+        // set total score
         holder.totalScore.setText(("Total Score  " + currentBangumi.getTotalScore() + ""));
+        // set number of user scored
         holder.userNumber.setText((currentBangumi.getUserNumber() + " scored"));
+        // set click listener for bangumi image, clicking the image will direct user to detail activity
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

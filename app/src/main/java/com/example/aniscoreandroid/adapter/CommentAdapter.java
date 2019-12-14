@@ -158,7 +158,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (!isInMain) {
             setKeyboard(holder, current, adapter, comments);
         }
-        // currently user is in comment main page, reply section exists displaying first 3 replies
+        // currently user is in commentMain page, reply section exists displaying first 3 replies
         if (isInMain) {
             // click reply section to comment detail fragment
             holder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -43,7 +43,6 @@ public class SelectImageActivity extends AppCompatActivity {
             addConverterFactory(GsonConverterFactory.create()).build();
     private String baseUrl = "http://10.0.2.2:4000/";
     public static final int SELECT_IMAGE = 10;
-    private File imageFile;
     private String mode;                                // "avatar" or "background"
     private String userId;
     private Uri imageUri;
@@ -131,7 +130,7 @@ public class SelectImageActivity extends AppCompatActivity {
                 PERMISSIONS_STORAGE,
                 REQUEST_EXTERNAL_STORAGE
         );
-        imageFile = new File(getPath(imageUri));
+        File imageFile = new File(getPath(imageUri));
         ServerCall service = retrofit.create(ServerCall.class);
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
         MultipartBody.Part imageUpload;

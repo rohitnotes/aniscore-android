@@ -27,14 +27,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.LOGIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SIGNUP" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SearchActivity"
@@ -42,7 +40,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SeasonBangumiActivity"
@@ -50,14 +47,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SEASONBANGUMI" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.BANGUMI_DETAIL" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".UserActivity"
@@ -66,7 +61,6 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.USER" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SelectImageActivity"
@@ -74,7 +68,6 @@
             android:parentActivityName=".UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SELECT_IMAGE" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -53,11 +53,13 @@ public class BangumiBriefAdapter extends RecyclerView.Adapter<BangumiBriefAdapte
         final BangumiBrief currentBangumi = bangumiList.get(position);
         Glide.with(context).load(currentBangumi.getImageUrl()).into(holder.image);
         String title = currentBangumi.getTitle();
+        // set title, if title length > 25, only take first 25 characters
         if(title.length() > 25) {
             holder.title.setText((title.substring(0, 25) + "..."));
         } else {
             holder.title.setText(title);
         }
+        // set click listener for image of bangumi, clicking the image can direct user to detail activity
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
