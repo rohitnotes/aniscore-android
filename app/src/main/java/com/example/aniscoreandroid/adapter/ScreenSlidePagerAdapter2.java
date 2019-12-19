@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid.utils;
+package com.example.aniscoreandroid.adapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

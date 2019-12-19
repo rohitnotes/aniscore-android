@@ -13,7 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.aniscoreandroid.searchResultView.BangumiResult;
 import com.example.aniscoreandroid.searchResultView.UserResult;
-import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter;
+import com.example.aniscoreandroid.adapter.ScreenSlidePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;

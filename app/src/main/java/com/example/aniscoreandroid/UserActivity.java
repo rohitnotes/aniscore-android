@@ -25,7 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
-import com.example.aniscoreandroid.utils.ScreenSlidePagerAdapter2;
+import com.example.aniscoreandroid.adapter.ScreenSlidePagerAdapter2;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
