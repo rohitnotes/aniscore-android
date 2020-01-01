@@ -58,9 +58,7 @@ public class BangumiSeasonAdapter extends RecyclerView.Adapter<BangumiSeasonAdap
     public void onBindViewHolder(BangumiSeasonViewHolder holder, int position) {
         int[] currentDate = getCurrentYearMonth();
         List<BangumiBrief> current = seasons.get(position);
-        int year = currentDate[0] - position/4;
-        int remain = position%4;
-        int currentMonth = currentDate[0];
+        int currentMonth = currentDate[1];
         int month = 0;
         // turn on current month into current season month,  current season month can only be 1, 4, 7, 10
         if (currentMonth >= 1 && currentMonth < 4) {
@@ -72,11 +70,16 @@ public class BangumiSeasonAdapter extends RecyclerView.Adapter<BangumiSeasonAdap
         } else {
             currentMonth = 10;
         }
-        // get the month of bangumi based on current season month and the position
-        if (currentMonth - remain * 3 < 0) {
-            month = 10 - (remain * 3 - (currentMonth-4));
+        int year = currentDate[0];
+        // previous years bangumi
+        if (position > currentMonth/4) {
+            year--;                         // pass to previous year
+            year -= (position-currentMonth/4-1) / 4;             // get year based on index
+            int remain = (position - currentMonth / 4 - 1) % 4;
+            // get the month of bangumi based on current season month and the position
+            month = 10 - (remain * 3);
         } else {
-            month = currentMonth- remain * 3;
+            month = currentMonth;
         }
         final String yearStr = year + "";
         // get season corresponding to month
