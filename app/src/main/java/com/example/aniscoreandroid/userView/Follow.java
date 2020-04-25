@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.UserActivity;
+import com.example.aniscoreandroid.activity.UserActivity;
 import com.example.aniscoreandroid.adapter.FollowAdapter;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;

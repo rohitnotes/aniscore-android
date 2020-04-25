@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context="com.example.aniscoreandroid.LoginActivity">
+    tools:context="com.example.aniscoreandroid.activity.LoginActivity">
 
     <TextView
         android:text="@string/login"

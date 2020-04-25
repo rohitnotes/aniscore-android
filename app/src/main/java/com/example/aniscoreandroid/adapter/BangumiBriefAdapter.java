@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.aniscoreandroid.DetailActivity;
-import com.example.aniscoreandroid.MainActivity;
+import com.example.aniscoreandroid.activity.DetailActivity;
+import com.example.aniscoreandroid.activity.MainActivity;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.SeasonBangumiActivity;
+import com.example.aniscoreandroid.activity.SeasonBangumiActivity;
 import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
 
 import java.util.List;

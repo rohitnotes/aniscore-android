@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.UserActivity;
+import com.example.aniscoreandroid.activity.UserActivity;
 import com.example.aniscoreandroid.detailView.CommentDetail;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.model.comment.Comment;

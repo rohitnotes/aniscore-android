@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.user.UserResponse;
 import com.example.aniscoreandroid.utils.ServerCall;
 import com.google.android.material.button.MaterialButton;

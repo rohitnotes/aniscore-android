@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +23,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.activity.DetailActivity;
+import com.example.aniscoreandroid.activity.MainActivity;
+import com.example.aniscoreandroid.activity.SearchActivity;
+import com.example.aniscoreandroid.activity.SelectImageActivity;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
 import com.example.aniscoreandroid.adapter.ScreenSlidePagerAdapter2;

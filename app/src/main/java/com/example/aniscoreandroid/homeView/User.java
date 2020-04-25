@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.aniscoreandroid.LoginActivity;
+import com.example.aniscoreandroid.activity.LoginActivity;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.UserActivity;
+import com.example.aniscoreandroid.activity.UserActivity;
 
 public class User extends Fragment {
     private View view;

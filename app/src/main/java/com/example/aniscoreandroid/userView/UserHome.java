@@ -4,16 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.UserActivity;
+import com.example.aniscoreandroid.activity.UserActivity;
 import com.example.aniscoreandroid.adapter.BangumiBriefScoreAdapter;
 import com.example.aniscoreandroid.adapter.FollowAdapter;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;

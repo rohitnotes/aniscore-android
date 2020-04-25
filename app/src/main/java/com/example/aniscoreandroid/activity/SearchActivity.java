@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.searchResultView.BangumiResult;
 import com.example.aniscoreandroid.searchResultView.UserResult;
 import com.example.aniscoreandroid.adapter.ScreenSlidePagerAdapter;

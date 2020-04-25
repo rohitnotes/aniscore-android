@@ -15,47 +15,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".activity.LoginActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.LOGIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity"
+        <activity android:name=".activity.SignupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SIGNUP" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".activity.SearchActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SeasonBangumiActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".activity.SeasonBangumiActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.SEASONBANGUMI" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"
+        <activity android:name=".activity.DetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.BANGUMI_DETAIL" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserActivity"
+        <activity android:name=".activity.UserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
             android:theme="@style/UserActivityNaviBarTextStyle"
             android:launchMode="singleTop">
@@ -63,9 +63,9 @@
                 <action android:name="android.intent.action.USER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectImageActivity"
+        <activity android:name=".activity.SelectImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
-            android:parentActivityName=".UserActivity">
+            android:parentActivityName=".activity.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SELECT_IMAGE" />
             </intent-filter>

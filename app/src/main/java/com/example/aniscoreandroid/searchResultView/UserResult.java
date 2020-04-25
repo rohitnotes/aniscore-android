@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.SearchActivity;
+import com.example.aniscoreandroid.activity.SearchActivity;
 import com.example.aniscoreandroid.adapter.UserSearchAdapter;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserListResponse;

@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.homeView.Home;
 import com.example.aniscoreandroid.homeView.Rank;
 import com.example.aniscoreandroid.homeView.Season;

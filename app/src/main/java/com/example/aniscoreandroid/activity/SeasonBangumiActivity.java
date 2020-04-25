@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.activity.MainActivity;
 import com.example.aniscoreandroid.adapter.BangumiBriefAdapter;
 import com.example.aniscoreandroid.model.bangumiList.BangumiBrief;
 import com.example.aniscoreandroid.model.bangumiList.BangumiListData;

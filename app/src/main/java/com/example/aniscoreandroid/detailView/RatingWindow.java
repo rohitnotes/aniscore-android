@@ -10,7 +10,7 @@ import android.widget.RatingBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.aniscoreandroid.DetailActivity;
+import com.example.aniscoreandroid.activity.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.model.bangumiApi.BangumiDetail;
 import com.example.aniscoreandroid.model.bangumiScore.BangumiScore;

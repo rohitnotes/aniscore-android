@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.UserActivity;
+import com.example.aniscoreandroid.activity.UserActivity;
 import com.example.aniscoreandroid.model.user.User;
 import com.example.aniscoreandroid.model.user.UserResponse;
 import com.example.aniscoreandroid.utils.ServerCall;

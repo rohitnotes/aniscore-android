@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aniscoreandroid.DetailActivity;
+import com.example.aniscoreandroid.activity.DetailActivity;
 import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.adapter.CommentAdapter;
 import com.example.aniscoreandroid.utils.EndlessListLoad;

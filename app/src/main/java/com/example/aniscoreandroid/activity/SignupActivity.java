@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aniscoreandroid.R;
+import com.example.aniscoreandroid.activity.LoginActivity;
 import com.example.aniscoreandroid.model.user.AuthResponse;
 import com.example.aniscoreandroid.signupView.AccountCreateWindow;
 import com.example.aniscoreandroid.utils.ServerCall;

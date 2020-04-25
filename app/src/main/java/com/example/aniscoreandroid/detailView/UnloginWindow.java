@@ -8,7 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.aniscoreandroid.LoginActivity;
+import com.example.aniscoreandroid.activity.LoginActivity;
 
 public class UnloginWindow extends DialogFragment {
     @Override

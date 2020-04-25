@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.aniscoreandroid.R;
-import com.example.aniscoreandroid.SearchActivity;
+import com.example.aniscoreandroid.activity.SearchActivity;
 import com.example.aniscoreandroid.adapter.BangumiSearchAdapter;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiBriefScore;
 import com.example.aniscoreandroid.model.bangumiListScore.BangumiListScoreResponse;

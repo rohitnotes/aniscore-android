@@ -1,4 +1,4 @@
-package com.example.aniscoreandroid;
+package com.example.aniscoreandroid.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.aniscoreandroid.R;
 import com.example.aniscoreandroid.detailView.BangumiInfo;
 import com.example.aniscoreandroid.detailView.Comments;
 import com.example.aniscoreandroid.loadingView.Loading;
